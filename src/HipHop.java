@@ -2,7 +2,10 @@
 public class HipHop extends Card {
 
 	public HipHop() {
-		// TODO Auto-generated constructor stub
+	}
+	public HipHop(String name, int cost) {
+		this.name=name;
+		this.cost = cost;
 	}
 
 }
