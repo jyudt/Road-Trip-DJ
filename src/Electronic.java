@@ -8,4 +8,8 @@ public class Electronic extends Card {
 		this.name=name;
 		this.cost = cost;
 	}
+	
+	public Electronic clone() {
+		return new Electronic(name, cost);
+	}
 }

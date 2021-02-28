@@ -8,4 +8,7 @@ public class HipHop extends Card {
 		this.cost = cost;
 	}
 
+	public HipHop clone() {
+		return new HipHop(name, cost);
+	}
 }

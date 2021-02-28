@@ -1,8 +1,16 @@
 import java.util.ArrayList;
 
 public abstract class Card {
-	String name;
-	int cost;
+	protected String name;
+	protected int cost;
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getCost() {
+		return cost;
+	}
 	
 	public String toString() {
 		ArrayList<Object> outs = new ArrayList<Object>();
@@ -15,5 +23,9 @@ public abstract class Card {
 			outStr+=o + " ";
 		}
 		return outStr;
+	}
+	
+	public Object clone() {
+		return null;
 	}
 }

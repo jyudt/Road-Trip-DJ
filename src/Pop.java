@@ -8,4 +8,8 @@ public class Pop extends Card {
 		this.name=name;
 		this.cost = cost;
 	}
+	
+	public Pop clone() {
+		return new Pop(name, cost);
+	}
 }

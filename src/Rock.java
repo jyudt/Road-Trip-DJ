@@ -8,5 +8,9 @@ public class Rock extends Card {
 		this.name=name;
 		this.cost = cost;
 	}
+	
+	public Rock clone() {
+		return new Rock(name, cost);
+	}
 
 }

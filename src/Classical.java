@@ -8,4 +8,8 @@ public class Classical extends Card {
 		this.name=name;
 		this.cost = cost;
 	}
+	
+	public Classical clone() {
+		return new Classical(name, cost);
+	}
 }
