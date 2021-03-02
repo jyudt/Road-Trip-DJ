@@ -25,6 +25,10 @@ public abstract class Card {
 		return outStr;
 	}
 	
+	public void playCard() {
+		
+	}
+	
 	public Object clone() {
 		return null;
 	}

@@ -17,7 +17,7 @@ public class Main {
 		mainDeck.add(getCard("Monophobia"));
 		mainDeck.add(getCard("Monophobia"));
 		for(int i=0;i<mainDeck.size();i++) {
-			System.out.println(i+ " "+mainDeck.get(i));
+			//System.out.println(i+ " "+mainDeck.get(i));
 		}
 		Ride ride = new Ride(allCards, mainDeck);
 		ride.beginRide();

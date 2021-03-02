@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Queue;
+import java.util.Scanner;
 
 public class Ride {
 	ArrayList<Card> allCards;
@@ -8,6 +9,7 @@ public class Ride {
 	ArrayList<Card> deck;
 	ArrayList<Card> hand = new ArrayList<Card>();
 	ArrayList<Card> discard = new ArrayList<Card>();
+	ArrayList<Rider> riders = new ArrayList<Rider>();
 	int maxMana = 3;
 	int currentMana;
 
@@ -26,10 +28,37 @@ public class Ride {
 	private void playerTurn(){
 		currentMana = maxMana;
 		System.out.println("Your Turn.");
-		System.out.println("Your hand:");
-		for(int i=0;i<hand.size();i++) {
-			System.out.println(i+ " "+hand.get(i));
+		int input = -2;
+		while(input!=-1) {
+			input = -2;
+			System.out.println("You have "+currentMana+" mana.");
+			System.out.println("Your hand:");
+			for(int i=0;i<hand.size();i++) {
+				System.out.println(i+ " "+hand.get(i));
+			}
+			Scanner inpScan = new Scanner(System.in);
+			while(input<-1 || input>hand.size()-1) {
+				System.out.println("Pick a card to play (0-"+(hand.size()-1)+", or -1 to end turn)");
+				input = Integer.parseInt(inpScan.nextLine());
+			}
+			if(input==-1) {
+				return;
+			}
+			Card played =  hand.get(input);
+			if(currentMana<played.getCost()) {
+				System.out.println("You don't have enough mana.");
+				continue;
+			} else {
+				currentMana -= played.getCost();
+			}
+			hand.remove(input);
+			System.out.println("You played: "+played.getName());
+			played.playCard();
+			for(Rider r:riders) {
+				r.reactToCard(played);
+			}
 		}
+		
 	}
 	
 	private void drawCard() {
