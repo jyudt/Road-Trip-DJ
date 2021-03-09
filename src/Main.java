@@ -4,7 +4,7 @@ import java.util.Collections;
 public class Main {
 	static ArrayList<Card> allCards;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		ArrayList<Card> mainDeck = new ArrayList<Card>();
 		mainDeck.add(getCard("Black Hole Sun"));
 		mainDeck.add(getCard("WAP"));
@@ -19,7 +19,7 @@ public class Main {
 		for(int i=0;i<mainDeck.size();i++) {
 			//System.out.println(i+ " "+mainDeck.get(i));
 		}
-		Ride ride = new Ride(allCards, mainDeck);
+		Ride ride = new Ride(allCards, mainDeck,20, 3);
 		ride.beginRide();
 	}
 	

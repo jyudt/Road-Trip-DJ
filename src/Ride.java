@@ -12,53 +12,118 @@ public class Ride {
 	ArrayList<Rider> riders = new ArrayList<Rider>();
 	int maxMana = 3;
 	int currentMana;
+	final int RIDE_DURATION;
+	int remainingTurns = -1;
+	int turnStartCards = 5;
+	final int MAX_HAND_SIZE = 10;
+	private static final Scanner inpScan = new Scanner(System.in);
 
-	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck) {
+	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {
 		this.allCards = allCards;
 		this.mainDeck = mainDeck;
+		this.RIDE_DURATION = turns;
+		this.remainingTurns = turns;
+		for(int i=0;i<riders;i++) {
+			this.riders.add(new Rider());
+		}
 	}
 	
 	public void beginRide() {
 		initializeDeck();
-		drawCard(5);
-		playerTurn();
 		
+		for(;remainingTurns>0;remainingTurns--) {
+			playerTurn();
+			riderTurn();
+			checkForLoss();
+		}
 	}
 	
 	private void playerTurn(){
+		drawCard(turnStartCards);
 		currentMana = maxMana;
+		System.out.println("Turns Remaining: "+remainingTurns);
 		System.out.println("Your Turn.");
 		int input = -2;
 		while(input!=-1) {
 			input = -2;
 			System.out.println("You have "+currentMana+" mana.");
+			System.out.println("~~~~~~~~~~~~~~~~~~");
+			System.out.println("Riders:");
+			for(Rider r:riders) {
+				String strOut = r.getName()+" || H:"+r.getHappiness()+" || Likes: "+r.getLikesString();
+				if(r.getDislikes()!=null)
+					strOut+=" || Dislikes: "+r.getDislikesString();
+				System.out.println(strOut);
+			}
+			System.out.println("~~~~~~~~~~~~~~~~~~");
 			System.out.println("Your hand:");
 			for(int i=0;i<hand.size();i++) {
 				System.out.println(i+ " "+hand.get(i));
 			}
-			Scanner inpScan = new Scanner(System.in);
+			
 			while(input<-1 || input>hand.size()-1) {
 				System.out.println("Pick a card to play (0-"+(hand.size()-1)+", or -1 to end turn)");
 				input = Integer.parseInt(inpScan.nextLine());
+				if(input==-10) {
+					//TODO remove this, only for presentation
+					System.out.println("King Crimson removes the time remaining in the ride!  1 turn left.");
+					remainingTurns = 1;
+				}
 			}
 			if(input==-1) {
+				System.out.println("Turn end.");
+				discardHand();
 				return;
 			}
 			Card played =  hand.get(input);
 			if(currentMana<played.getCost()) {
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				System.out.println("!!!!");
 				System.out.println("You don't have enough mana.");
+				System.out.println();
 				continue;
 			} else {
 				currentMana -= played.getCost();
 			}
 			hand.remove(input);
 			System.out.println("You played: "+played.getName());
+			System.out.println();
 			played.playCard();
 			for(Rider r:riders) {
 				r.reactToCard(played);
 			}
 		}
 		
+	}
+	
+	public void riderTurn() {
+		for(Rider r:riders) {
+			r.takeTurn();
+		}
+	}
+	
+	private void checkForLoss() {
+		ArrayList<Rider> madRiders = new ArrayList<Rider>();
+		for(Rider r:riders) {
+			if(r.getHappiness()<=0) {
+				madRiders.add(r);
+			}
+		}
+		if(madRiders.size()==0)
+			return;
+		if(madRiders.size()==1)
+			System.out.println(madRiders.get(0).getName()+ " is sick of your music.  Game over!");
+		if(madRiders.size()>1) {
+			String out = madRiders.remove(0).getName();
+			for(Rider r:madRiders) {
+				out+= " and "+r.getName();
+			}
+			out+= " are sick of your music.  Game over!";
+			System.out.println(out);
+		}
+		System.exit(0);
 	}
 	
 	private void drawCard() {
@@ -70,11 +135,17 @@ public class Ride {
 		Collections.shuffle(deck);
 		}
 		Card toDraw = deck.remove(0);
-		if(hand.size()<10) {
+		if(hand.size()<MAX_HAND_SIZE) {
 			hand.add(toDraw);
 		} else {
 			System.out.println("Your hand is full.  Discarding "+ toDraw.getName()+ ".");
 			discard.add(toDraw);
+		}
+	}
+	
+	private void discardHand() {
+		while(hand.size()>0) {
+			discard.add(hand.remove(0));
 		}
 	}
 	
