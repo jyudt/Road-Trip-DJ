@@ -20,7 +20,8 @@ public class Main {
 			//System.out.println(i+ " "+mainDeck.get(i));
 		}
 		Ride ride = new Ride(allCards, mainDeck,20, 3);
-		ride.beginRide();
+		//ride.beginRide();
+		gameGUI myGui = new gameGUI();
 	}
 	
 	

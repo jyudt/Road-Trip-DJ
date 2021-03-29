@@ -36,6 +36,7 @@ public class Ride {
 			riderTurn();
 			checkForLoss();
 		}
+		System.out.println("Congratulations!  You've reached your destination with everyone still happy.  You win!");
 	}
 	
 	private void playerTurn(){
@@ -67,11 +68,14 @@ public class Ride {
 				if(input==-10) {
 					//TODO remove this, only for presentation
 					System.out.println("King Crimson removes the time remaining in the ride!  1 turn left.");
-					remainingTurns = 1;
+					remainingTurns = 2;
+					input=-1;
+					continue;
 				}
 			}
 			if(input==-1) {
 				System.out.println("Turn end.");
+				System.out.println();
 				discardHand();
 				return;
 			}

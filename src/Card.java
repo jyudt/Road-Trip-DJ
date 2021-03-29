@@ -32,4 +32,13 @@ public abstract class Card {
 	public Object clone() {
 		return null;
 	}
+	
+	public boolean sameClass() {
+		//TODO
+		return false;
+	}
+	
+	public String getText() {
+		return "missing card text";
+	}
 }
