@@ -41,4 +41,8 @@ public abstract class Card {
 	public String getText() {
 		return "missing card text";
 	}
+	
+	public boolean exhausts() {
+		return false;
+	}
 }

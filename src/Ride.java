@@ -9,7 +9,9 @@ public class Ride {
 	ArrayList<Card> deck;
 	ArrayList<Card> hand = new ArrayList<Card>();
 	ArrayList<Card> discard = new ArrayList<Card>();
+	ArrayList<Card> exhaust = new ArrayList<Card>();
 	ArrayList<Rider> riders = new ArrayList<Rider>();
+	gameGUI gui;
 	int maxMana = 3;
 	int currentMana;
 	final int RIDE_DURATION;
@@ -30,6 +32,8 @@ public class Ride {
 	
 	public void beginRide() {
 		initializeDeck();
+		gui = new gameGUI();
+		updateGui();
 		
 		for(;remainingTurns>0;remainingTurns--) {
 			playerTurn();
@@ -40,6 +44,7 @@ public class Ride {
 	}
 	
 	private void playerTurn(){
+		gui.setTimer(remainingTurns);
 		drawCard(turnStartCards);
 		currentMana = maxMana;
 		System.out.println("Turns Remaining: "+remainingTurns);
@@ -92,8 +97,14 @@ public class Ride {
 				currentMana -= played.getCost();
 			}
 			hand.remove(input);
+			if(played.exhausts()) {
+				exhaust.add(played);
+			} else {
+				discard.add(played);
+			}
 			System.out.println("You played: "+played.getName());
 			System.out.println();
+			updateGui();
 			played.playCard();
 			for(Rider r:riders) {
 				r.reactToCard(played);
@@ -145,12 +156,15 @@ public class Ride {
 			System.out.println("Your hand is full.  Discarding "+ toDraw.getName()+ ".");
 			discard.add(toDraw);
 		}
+		gui.passHand(hand);
+		updateGui();
 	}
 	
 	private void discardHand() {
 		while(hand.size()>0) {
 			discard.add(hand.remove(0));
 		}
+		gui.passHand(hand);
 	}
 	
 	private void drawCard(int n) {
@@ -166,6 +180,14 @@ public class Ride {
 			deck.add(clone);
 		}
 		Collections.shuffle(deck);
+	}
+	
+	public void updateGui() {
+		gui.deckSize(deck.size());
+		gui.discardSize(discard.size());
+		gui.exhaustSize(exhaust.size());
+		gui.passHand(hand);
+		gui.setTimer(remainingTurns);
 	}
 
 }
