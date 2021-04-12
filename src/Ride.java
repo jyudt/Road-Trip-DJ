@@ -19,6 +19,7 @@ public class Ride {
 	int turnStartCards = 5;
 	final int MAX_HAND_SIZE = 10;
 	private static final Scanner inpScan = new Scanner(System.in);
+	private int input;
 
 	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {
 		this.allCards = allCards;
@@ -32,7 +33,7 @@ public class Ride {
 	
 	public void beginRide() {
 		initializeDeck();
-		gui = new gameGUI();
+		gui = new gameGUI(this);
 		updateGui();
 		
 		for(;remainingTurns>0;remainingTurns--) {
@@ -49,8 +50,9 @@ public class Ride {
 		currentMana = maxMana;
 		System.out.println("Turns Remaining: "+remainingTurns);
 		System.out.println("Your Turn.");
-		int input = -2;
+		input = -2;
 		while(input!=-1) {
+			gui.passTime(currentMana);
 			input = -2;
 			System.out.println("You have "+currentMana+" mana.");
 			System.out.println("~~~~~~~~~~~~~~~~~~");
@@ -66,16 +68,18 @@ public class Ride {
 			for(int i=0;i<hand.size();i++) {
 				System.out.println(i+ " "+hand.get(i));
 			}
-			
+			/**
 			while(input<-1 || input>hand.size()-1) {
 				System.out.println("Pick a card to play (0-"+(hand.size()-1)+", or -1 to end turn)");
 				input = Integer.parseInt(inpScan.nextLine());
-				if(input==-10) {
-					//TODO remove this, only for presentation
-					System.out.println("King Crimson removes the time remaining in the ride!  1 turn left.");
-					remainingTurns = 2;
-					input=-1;
-					continue;
+			}
+			*/
+			while(input<-1 || input>hand.size()-1) {
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			if(input==-1) {
@@ -111,6 +115,10 @@ public class Ride {
 			}
 		}
 		
+	}
+	
+	public void passInput(int i) {
+		input=i;
 	}
 	
 	public void riderTurn() {
@@ -188,6 +196,7 @@ public class Ride {
 		gui.exhaustSize(exhaust.size());
 		gui.passHand(hand);
 		gui.setTimer(remainingTurns);
+		gui.passTime(currentMana);
 	}
 
 }

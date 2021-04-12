@@ -2,6 +2,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +26,8 @@ public class gameGUI extends JFrame {
 	private final Dimension HAND_SIZE_DIM = new Dimension(1850, 320); 
 	private final Dimension TIMER_SIZE_DIM = new Dimension(1850, 100); 
 	private final Dimension RIDER_SIZE_DIM = new Dimension(1850, 500); 
-	private final Dimension MANA_SIZE_DIM = new Dimension(1850, 100); 
-
-	
-
+	private final Dimension MANA_SIZE_DIM = new Dimension(1850, 100);
+	private final Dimension BTN_SIZE_DIM = new Dimension(200, 90); 
 	
 	private JPanel hand;
 	private ArrayList<Card> handList = new ArrayList<Card>();
@@ -38,8 +42,13 @@ public class gameGUI extends JFrame {
 	private JPanel riderP;
 
 	private JPanel manaP;
+	private JLabel mana;
+	private JButton endTurn;
 	
-	public gameGUI() {
+	private Ride ride;
+	
+	public gameGUI(Ride r) {
+		ride = r;
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1920,1080); 
 		setResizable(false);
@@ -61,6 +70,7 @@ public class gameGUI extends JFrame {
 		BufferedImage deckImageFile = null;
 		BufferedImage discardImageFile = null;
 		BufferedImage exhaustImageFile = null;
+		BufferedImage timeImageFile = null;
 		try {
 			deckImageFile = ImageIO.read(new File("./img/deck.png"));
 		} catch (IOException e) {
@@ -79,6 +89,12 @@ public class gameGUI extends JFrame {
 			e.printStackTrace();
 			System.out.println("Error: can't find exhaust image");
 		}
+		try {
+			timeImageFile = ImageIO.read(new File("./img/stopwatch.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find time image");
+		}
 		
 		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
 		deckImage.setAlignmentX(CENTER_ALIGNMENT);
@@ -86,6 +102,8 @@ public class gameGUI extends JFrame {
 		discardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JLabel exhaustImage = new JLabel(new ImageIcon(exhaustImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
 		exhaustImage.setAlignmentX(CENTER_ALIGNMENT);
+		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(80, 90, Image.SCALE_FAST)));
+		timeImage.setAlignmentX(CENTER_ALIGNMENT);
 		deckSize = new JLabel("0");
 		deckSize.setFont(new Font(deckSize.getFont().getName(), Font.BOLD, 30));
 		discardSize = new JLabel("0");
@@ -94,6 +112,18 @@ public class gameGUI extends JFrame {
 		exhaustSize.setFont(new Font(exhaustSize.getFont().getName(), Font.BOLD, 30));
 		timer = new JLabel("0");
 		timer.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
+		mana = new JLabel("0");
+		mana.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
+		
+		endTurn = new JButton("End Turn");
+		endTurn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.out.println("button press");
+	            sendInput(-1); 
+			}  
+		});
+		endTurn.setMaximumSize(BTN_SIZE_DIM);
+		endTurn.setPreferredSize(BTN_SIZE_DIM);
 		
 		timerP.add(Box.createHorizontalStrut(100));
 		timerP.add(deckImage);
@@ -124,6 +154,12 @@ public class gameGUI extends JFrame {
 		manaP.setMaximumSize(MANA_SIZE_DIM);
 		manaP.setPreferredSize(MANA_SIZE_DIM);
 		
+		manaP.add(timeImage);
+		manaP.add(Box.createHorizontalStrut(10));
+		manaP.add(mana);
+		manaP.add(Box.createHorizontalGlue());
+		manaP.add(endTurn);
+		
 		manaP.setBackground(Color.ORANGE);
 		
 		add(Box.createVerticalStrut(10));
@@ -135,10 +171,16 @@ public class gameGUI extends JFrame {
 		add(Box.createVerticalGlue());
 		add(hand);
 		drawHand();
+		
+		hand.setBackground(Color.blue);
 
 		
 		setVisible(true);
 
+	}
+	
+	public void sendInput(int i) {
+		ride.passInput(i);
 	}
 	
 	public void setTimer(int i) {
@@ -159,7 +201,7 @@ public class gameGUI extends JFrame {
 		hand.removeAll();
 		hand.add(Box.createHorizontalGlue());
 		for(int i=0;i<handList.size();i++) {
-			JPanel card = drawCard(handList.get(i));
+			JPanel card = drawCard(handList.get(i),i);
 			card.setMaximumSize(CARD_DIM);
 			hand.add(card);
 			if(i<handList.size()-1)
@@ -175,9 +217,15 @@ public class gameGUI extends JFrame {
 		drawHand();
 	}
 	
-	private JPanel drawCard(Card c) {
+	public void passTime(int time) {
+		mana.setText(Integer.toString(time));
+	}
+	
+	private JPanel drawCard(Card c, int index) {
 		BufferedImage myPicture = null;
 		int imageIndex = -1;
+		
+	
 		for(int i=0;i<cardImageNames.size();i++) {
 			if(cardImageNames.get(i).equals(c.getName())) {
 				imageIndex = i;
@@ -232,6 +280,14 @@ public class gameGUI extends JFrame {
 		cardP.add(textP);
 		cardP.add(Box.createVerticalGlue());
 		cardP.setBackground(Color.red);
+		
+		cardP.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent me) {
+				System.out.println("Pressed card "+index);
+				sendInput(index);
+			}
+		});
+		
 		return cardP;
 	}
 
