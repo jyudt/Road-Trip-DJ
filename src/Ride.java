@@ -197,6 +197,11 @@ public class Ride {
 		gui.passHand(hand);
 		gui.setTimer(remainingTurns);
 		gui.passTime(currentMana);
+		gui.drawRiders();
+	}
+	
+	public ArrayList<Rider> getRiders() {
+		return riders;
 	}
 
 }

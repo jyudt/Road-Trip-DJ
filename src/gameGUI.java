@@ -25,9 +25,20 @@ public class gameGUI extends JFrame {
 	private final Dimension CARD_TEXT_DIM =new Dimension(165,130); 
 	private final Dimension HAND_SIZE_DIM = new Dimension(1850, 320); 
 	private final Dimension TIMER_SIZE_DIM = new Dimension(1850, 100); 
-	private final Dimension RIDER_SIZE_DIM = new Dimension(1850, 500); 
+	private final Dimension RIDERS_SIZE_DIM = new Dimension(1850, 500); 
 	private final Dimension MANA_SIZE_DIM = new Dimension(1850, 100);
 	private final Dimension BTN_SIZE_DIM = new Dimension(200, 90); 
+	private final Dimension RIDER_SIZE_DIM = new Dimension(300, 600); 
+	private final Dimension HEALTH_SIZE_DIM = new Dimension(300, 30); 
+
+
+	
+	private ArrayList<Rider> riders = new ArrayList<Rider>();
+	
+	private BufferedImage happy;
+	private BufferedImage neut;
+	private BufferedImage sad;
+
 	
 	private JPanel hand;
 	private ArrayList<Card> handList = new ArrayList<Card>();
@@ -49,6 +60,7 @@ public class gameGUI extends JFrame {
 	
 	public gameGUI(Ride r) {
 		ride = r;
+		riders=r.getRiders();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1920,1080); 
 		setResizable(false);
@@ -94,6 +106,24 @@ public class gameGUI extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find time image");
+		}
+		try {
+			happy = ImageIO.read(new File("./img/riderHappy.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find happy image");
+		}
+		try {
+			neut = ImageIO.read(new File("./img/riderNeut.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find neutral image");
+		}
+		try {
+			sad = ImageIO.read(new File("./img/riderSad.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find sad image");
 		}
 		
 		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
@@ -143,8 +173,8 @@ public class gameGUI extends JFrame {
 		riderP = new JPanel();
 		riderP.setLayout(new BoxLayout(riderP, BoxLayout.X_AXIS));
 		riderP.setAlignmentX(CENTER_ALIGNMENT);
-		riderP.setMaximumSize(RIDER_SIZE_DIM);
-		riderP.setPreferredSize(RIDER_SIZE_DIM);
+		riderP.setMaximumSize(RIDERS_SIZE_DIM);
+		riderP.setPreferredSize(RIDERS_SIZE_DIM);
 		
 		riderP.setBackground(Color.red);
 		
@@ -170,9 +200,11 @@ public class gameGUI extends JFrame {
 		add(manaP);
 		add(Box.createVerticalGlue());
 		add(hand);
-		drawHand();
 		
-		hand.setBackground(Color.blue);
+		
+		
+		drawHand();
+		drawRiders();
 
 		
 		setVisible(true);
@@ -195,6 +227,100 @@ public class gameGUI extends JFrame {
 	}
 	public void exhaustSize(int i) {
 		exhaustSize.setText(Integer.toString(i));
+	}
+	
+	public void drawRiders() {
+		riderP.removeAll();
+		riderP.add(Box.createHorizontalGlue());
+		for(int i=0;i<riders.size();i++) {
+			JPanel rdr = drawRider(riders.get(i));
+			rdr.setMaximumSize(RIDER_SIZE_DIM);
+			riderP.add(rdr);
+			if(i<riders.size()-1)
+				riderP.add(Box.createHorizontalStrut(10));
+		}
+		riderP.add(Box.createHorizontalGlue());
+		riderP.updateUI();
+		
+		
+	}
+	
+	private JPanel drawRider(Rider r) {
+		int happiness = r.getHappiness();
+		BufferedImage myImage = null;
+		if(happiness>60) {
+			myImage = happy;
+		} else if(happiness>30) {
+			myImage = neut;
+		} else {
+			myImage = sad;
+		}
+		
+		JPanel rider = new JPanel();
+		rider.setLayout(new BoxLayout(rider, BoxLayout.Y_AXIS));
+		rider.setPreferredSize(RIDER_SIZE_DIM);
+		rider.setMaximumSize(RIDER_SIZE_DIM);
+		rider.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JLabel riderImage = new JLabel(new ImageIcon(myImage.getScaledInstance(180, 380, Image.SCALE_DEFAULT)));
+		riderImage.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JLabel name = new JLabel(r.getName());
+		name.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JPanel healthP = new JPanel();
+		healthP.setLayout(new BoxLayout(healthP, BoxLayout.X_AXIS));
+		healthP.setPreferredSize(HEALTH_SIZE_DIM);
+		healthP.setMaximumSize(HEALTH_SIZE_DIM);
+		
+		JProgressBar healthBar = new JProgressBar(0,100);
+		healthBar.setValue(happiness);
+		
+		JLabel healthLab = new JLabel("H: "+Integer.toString(happiness));
+		
+		healthP.add(Box.createHorizontalStrut(20));
+		healthP.add(healthBar);
+		healthP.add(Box.createHorizontalStrut(5));
+		healthP.add(healthLab);
+		healthP.add(Box.createHorizontalStrut(10));
+		
+		JPanel likesP = new JPanel();
+		likesP.setLayout(new BoxLayout(likesP, BoxLayout.X_AXIS));
+		likesP.setPreferredSize(HEALTH_SIZE_DIM);
+		likesP.setMaximumSize(HEALTH_SIZE_DIM);
+		
+		JLabel likes = new JLabel(r.getLikesString().substring(0,1));
+		likes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 30));
+		likes.setForeground(Color.green.darker());
+		likesP.add(likes);
+		
+		if(r.getDislikes()!=null) {
+			JLabel dislikes = new JLabel(r.getDislikesString().substring(0,1));
+			dislikes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 30));
+			dislikes.setForeground(Color.red);
+			likesP.add(Box.createHorizontalStrut(10));
+			likesP.add(dislikes);
+		}
+		
+		for(String s:r.getTraits()) {
+			JLabel tr = new JLabel(s);
+			tr.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 25));
+			likesP.add(Box.createHorizontalStrut(10));
+			likesP.add(tr);
+		}
+		
+		rider.add(name);
+		rider.add(Box.createVerticalStrut(5));
+		rider.add(riderImage);
+		rider.add(Box.createVerticalStrut(5));
+		rider.add(healthP);
+		rider.add(Box.createVerticalStrut(5));
+		rider.add(likesP);
+		
+		
+		rider.setBackground(Color.cyan);
+		
+		return rider;
 	}
 	
 	public void drawHand() {
@@ -255,12 +381,16 @@ public class gameGUI extends JFrame {
 		JPanel cardP = new JPanel();
 		cardP.setLayout(new BoxLayout(cardP, BoxLayout.Y_AXIS));
 		cardP.setBorder(new EmptyBorder(10, 10, 10, 10));
+		JPanel topP = new JPanel();
+		topP.setLayout(new BoxLayout(topP, BoxLayout.X_AXIS));
 		JLabel title = new JLabel(c.getName());
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 18));
 		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(150, 120, Image.SCALE_FAST)));
 		cardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
+		JLabel type = new JLabel(c.getType().substring(0,1));
+		JLabel manaCost = new JLabel(Integer.toString(c.getCost()));
 		
 		textP.setMaximumSize(CARD_TEXT_DIM);
 		textP.setPreferredSize(CARD_TEXT_DIM);
@@ -270,10 +400,16 @@ public class gameGUI extends JFrame {
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		textP.add(text);
 		
+		topP.add(type);
+		topP.add(Box.createHorizontalGlue());
+		topP.add(title);
+		topP.add(Box.createHorizontalGlue());
+		topP.add(manaCost);
+		
 		cardP.setSize(CARD_DIM);
 		textP.setMaximumSize(CARD_DIM);
 		textP.setPreferredSize(CARD_DIM);
-		cardP.add(title);
+		cardP.add(topP);
 		cardP.add(Box.createVerticalStrut(10));
 		cardP.add(cardImage);
 		cardP.add(Box.createVerticalGlue());
@@ -287,6 +423,8 @@ public class gameGUI extends JFrame {
 				sendInput(index);
 			}
 		});
+		
+		topP.setBackground(Color.red);
 		
 		return cardP;
 	}

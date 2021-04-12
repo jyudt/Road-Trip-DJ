@@ -83,7 +83,7 @@ public class Rider {
 		return dislikes;
 	}
 	
-	public Object getDislikesString() {
+	public String getDislikesString() {
 		if(dislikes==null)
 			return null;
 		return dislikes.getClass().toString().substring(6);
@@ -124,12 +124,12 @@ public class Rider {
 	}
 	
 	public void takeTurn() {
-		int happinessIncrease = -20;
+		int happinessIncrease = -30;
 		if(lastHeard!=null && lastHeard.getClass().equals(likes.getClass())) {
-			happinessIncrease = 0;
+			happinessIncrease = -15;
 		}
 		if(lastHeard!=null && dislikes!=null && lastHeard.getClass().equals(dislikes.getClass())) {
-			happinessIncrease = -30;
+			happinessIncrease = -40;
 		}
 		gainHappiness(happinessIncrease);
 		lastHeard = null;

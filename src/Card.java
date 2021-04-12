@@ -45,4 +45,8 @@ public abstract class Card {
 	public boolean exhausts() {
 		return false;
 	}
+	
+	public String getType() {
+		return this.getClass().getName();
+	}
 }
