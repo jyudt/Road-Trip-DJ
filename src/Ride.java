@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Queue;
-import java.util.Scanner;
 
 public class Ride {
 	ArrayList<Card> allCards;
@@ -18,7 +16,6 @@ public class Ride {
 	int remainingTurns = -1;
 	int turnStartCards = 5;
 	final int MAX_HAND_SIZE = 10;
-	private static final Scanner inpScan = new Scanner(System.in);
 	private int input;
 
 	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {

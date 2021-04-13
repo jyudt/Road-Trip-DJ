@@ -6,11 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -83,44 +82,45 @@ public class gameGUI extends JFrame {
 		BufferedImage discardImageFile = null;
 		BufferedImage exhaustImageFile = null;
 		BufferedImage timeImageFile = null;
+		
 		try {
-			deckImageFile = ImageIO.read(new File("./img/deck.png"));
+			deckImageFile = ImageIO.read(getClass().getResource("img/deck.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find deck image");
 		}
 		try {
-			discardImageFile = ImageIO.read(new File("./img/discard.png"));
+			discardImageFile = ImageIO.read(getClass().getResource("img/discard.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find discard image");
 		}
 		try {
-			exhaustImageFile = ImageIO.read(new File("./img/exile.png"));
+			exhaustImageFile = ImageIO.read(getClass().getResource("img/exile.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find exhaust image");
 		}
 		try {
-			timeImageFile = ImageIO.read(new File("./img/stopwatch.png"));
+			timeImageFile = ImageIO.read(getClass().getResource("img/stopwatch.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find time image");
 		}
 		try {
-			happy = ImageIO.read(new File("./img/riderHappy.png"));
+			happy = ImageIO.read(getClass().getResource("img/riderHappy.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find happy image");
 		}
 		try {
-			neut = ImageIO.read(new File("./img/riderNeut.png"));
+			neut = ImageIO.read(getClass().getResource("img/riderNeut.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find neutral image");
 		}
 		try {
-			sad = ImageIO.read(new File("./img/riderSad.png"));
+			sad = ImageIO.read(getClass().getResource("img/riderSad.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error: can't find sad image");
@@ -353,22 +353,23 @@ public class gameGUI extends JFrame {
 			}
 		}
 		if(imageIndex==-1) {
-			File toRead = new File("./img/"+c.getName()+".png");
-			if(!toRead.exists()) {
-				System.out.println("error finding image file");
-				toRead = new File("./img/test.png");
-			}
+			URL toRead = getClass().getResource("img/"+c.getName()+".png");
 			try {
-				System.out.println(toRead.getPath());
 				myPicture = ImageIO.read(toRead);
 			} catch (Exception e) {
 				System.out.println("error finding image");
+				toRead = getClass().getResource("img/test.png");
+				try {
+					myPicture = ImageIO.read(toRead);
+				} catch (IOException e1) {
+					System.out.println("error finding test image");
+					e1.printStackTrace();
+					return null;
+				}
 				e.printStackTrace();
 			}
-			if(toRead.exists()) {
-				cardImages.add(myPicture);
-				cardImageNames.add(c.getName());
-			}
+			cardImages.add(myPicture);
+			cardImageNames.add(c.getName());
 		} else {
 			myPicture = cardImages.get(imageIndex);
 		}
