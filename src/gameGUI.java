@@ -176,8 +176,6 @@ public class gameGUI extends JFrame {
 		riderP.setMaximumSize(RIDERS_SIZE_DIM);
 		riderP.setPreferredSize(RIDERS_SIZE_DIM);
 		
-		riderP.setBackground(Color.red);
-		
 		manaP = new JPanel();
 		manaP.setLayout(new BoxLayout(manaP, BoxLayout.X_AXIS));
 		manaP.setAlignmentX(CENTER_ALIGNMENT);
@@ -189,8 +187,6 @@ public class gameGUI extends JFrame {
 		manaP.add(mana);
 		manaP.add(Box.createHorizontalGlue());
 		manaP.add(endTurn);
-		
-		manaP.setBackground(Color.ORANGE);
 		
 		add(Box.createVerticalStrut(10));
 		add(timerP);
@@ -267,6 +263,8 @@ public class gameGUI extends JFrame {
 		
 		JLabel name = new JLabel(r.getName());
 		name.setAlignmentX(CENTER_ALIGNMENT);
+		name.setFont(new Font(name.getFont().getName(), Font.PLAIN, 20));
+
 		
 		JPanel healthP = new JPanel();
 		healthP.setLayout(new BoxLayout(healthP, BoxLayout.X_AXIS));
@@ -316,9 +314,6 @@ public class gameGUI extends JFrame {
 		rider.add(healthP);
 		rider.add(Box.createVerticalStrut(5));
 		rider.add(likesP);
-		
-		
-		rider.setBackground(Color.cyan);
 		
 		return rider;
 	}
@@ -391,12 +386,21 @@ public class gameGUI extends JFrame {
 		JPanel textP = new JPanel();
 		JLabel type = new JLabel(c.getType().substring(0,1));
 		JLabel manaCost = new JLabel(Integer.toString(c.getCost()));
+		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, 20));
+
 		
 		textP.setMaximumSize(CARD_TEXT_DIM);
 		textP.setPreferredSize(CARD_TEXT_DIM);
 		textP.setBorder(BorderFactory.createLineBorder(Color.black));
 		textP.setAlignmentX(CENTER_ALIGNMENT);
-		JLabel text = new JLabel(c.getText());
+		JTextArea text = new JTextArea(5,10);
+		text.setText(c.getText());
+		text.setWrapStyleWord(true);
+		text.setLineWrap(true);
+		text.setOpaque(false);
+		text.setEditable(false);
+		text.setFocusable(false);
+		text.setFont(new Font(text.getFont().getName(), Font.PLAIN, 17));
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		textP.add(text);
 		

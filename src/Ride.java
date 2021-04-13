@@ -109,7 +109,7 @@ public class Ride {
 			System.out.println("You played: "+played.getName());
 			System.out.println();
 			updateGui();
-			played.playCard();
+			played.playCard(this);
 			for(Rider r:riders) {
 				r.reactToCard(played);
 			}
@@ -172,10 +172,10 @@ public class Ride {
 		while(hand.size()>0) {
 			discard.add(hand.remove(0));
 		}
-		gui.passHand(hand);
+		updateHand();
 	}
 	
-	private void drawCard(int n) {
+	public void drawCard(int n) {
 		for(int i=0;i<n;i++) {
 			drawCard();
 		}
@@ -190,6 +190,10 @@ public class Ride {
 		Collections.shuffle(deck);
 	}
 	
+	public void updateHand() {
+		gui.passHand(hand);
+	}
+	
 	public void updateGui() {
 		gui.deckSize(deck.size());
 		gui.discardSize(discard.size());
@@ -202,6 +206,16 @@ public class Ride {
 	
 	public ArrayList<Rider> getRiders() {
 		return riders;
+	}
+	
+	public void addToHand(Card c) {
+		hand.add(c);
+		updateHand();
+	}
+	
+	public void exhCardInHand(int i) {
+		exhaust.add(hand.remove(i));
+		updateGui();
 	}
 
 }
