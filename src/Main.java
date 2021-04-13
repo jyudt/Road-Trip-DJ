@@ -11,7 +11,8 @@ public class Main {
 		//deck of every card
 		
 		for(Card c:normCards) {
-			mainDeck.add((Card)c.clone());
+			if(c.getType().equals("Electronic"))
+				mainDeck.add((Card)c.clone());
 		}
 		
 		for(int i=0;i<mainDeck.size();i++) {
@@ -25,16 +26,41 @@ public class Main {
 	
 	private static void initializeCards(){
 		normCards =  new ArrayList<Card>();
+		//rock
 		normCards.add(new Rock("Black Hole Sun",1));
+		normCards.add(new Rock("Sweet Emotion",0));
+		normCards.add(new Rock("Back in Black",1));
+		normCards.add(new Rock("Bohemian Rhapsody",2));
+		normCards.add(new Rock("We Will Rock You",1));
+		normCards.add(new Rock("Livin\' On A Prayer",1));
 		
+		//electronic
+		normCards.add(new Electronic("Lean On",1));
+		normCards.add(new Electronic("Helicopter",0));
+		normCards.add(new Electronic("Turn Down For What",1));
+		normCards.add(new Electronic("Digital Love",1));
+		normCards.add(new Electronic("Around The World",1));
+		normCards.add(new Electronic("Closer",1));
+
+		//pop
 		normCards.add(new Pop("Thriller",1));
 		normCards.add(new Pop("Shake It Off",0));
 		normCards.add(new Pop("I Want It That Way",1));
 		normCards.add(new Pop("Don't Stop Believing",1));
 		normCards.add(new Pop("Hollaback Girl",1));
 		normCards.add(new Pop("Uptown Funk",1));
-
+		
+		
+		
 		allCards =  new ArrayList<Card>();
+		//rock-gen
+		allCards.add(new Rock("We Are The Champions",3));
+		
+		//electronic-gen
+		allCards.add(new Electronic("One More Time",1));
+		allCards.add(new Electronic("Get Lucky",1));
+		
+		//pop-gen
 		allCards.add(new Pop("Everybody",1));
 		allCards.add(new Pop("No Place",1));
 		allCards.add(new Pop("Any Way You Want It",0));
@@ -65,5 +91,13 @@ public class Main {
 			}
 		}
 		return null;
+	}
+	
+	public static Card getRandNormCard() {
+		if(normCards==null) {
+			initializeCards();
+		}
+		int index = (int)(Math.random()*normCards.size());
+		return (Card) normCards.get(index).clone();
 	}
 }

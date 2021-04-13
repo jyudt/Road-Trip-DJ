@@ -17,6 +17,7 @@ public class Ride {
 	int turnStartCards = 5;
 	final int MAX_HAND_SIZE = 10;
 	private int input;
+	public int playTwice = 0;
 
 	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {
 		this.allCards = allCards;
@@ -83,6 +84,7 @@ public class Ride {
 				System.out.println("Turn end.");
 				System.out.println();
 				discardHand();
+				playTwice=0;
 				return;
 			}
 			Card played =  hand.get(input);
@@ -105,11 +107,19 @@ public class Ride {
 			}
 			System.out.println("You played: "+played.getName());
 			System.out.println();
-			updateGui();
+
 			played.playCard(this);
 			for(Rider r:riders) {
 				r.reactToCard(played);
 			}
+			if(playTwice>0) {
+				played.playCard(this);
+				for(Rider r:riders) {
+					r.reactToCard(played);
+				}
+				playTwice--;
+			}
+			updateGui();
 		}
 		
 	}
@@ -148,9 +158,11 @@ public class Ride {
 	
 	private void drawCard() {
 		if(deck.size()==0) {
+			if(discard.size()==0) {
+				return;
+			}
 			while(discard.size()>0) {
-				Card c = discard.remove(0);
-				deck.add(c);
+				deck.add(discard.remove(0));
 			}
 		Collections.shuffle(deck);
 		}
@@ -161,7 +173,6 @@ public class Ride {
 			System.out.println("Your hand is full.  Discarding "+ toDraw.getName()+ ".");
 			discard.add(toDraw);
 		}
-		gui.passHand(hand);
 		updateGui();
 	}
 	
