@@ -22,7 +22,7 @@ public class gameGUI extends JFrame {
 	ArrayList<String> cardImageNames = new ArrayList<String>();
 	private final Dimension CARD_DIM =new Dimension(180,300); 
 	private final Dimension CARD_TEXT_DIM =new Dimension(165,130); 
-	private final Dimension HAND_SIZE_DIM = new Dimension(1880, 320); 
+	private final Dimension HAND_SIZE_DIM = new Dimension(1880	, 320); 
 	private final Dimension TIMER_SIZE_DIM = new Dimension(1850, 100); 
 	private final Dimension RIDERS_SIZE_DIM = new Dimension(1850, 500); 
 	private final Dimension MANA_SIZE_DIM = new Dimension(1850, 100);
@@ -44,6 +44,11 @@ public class gameGUI extends JFrame {
 	
 	private JPanel timerP;
 	private JLabel timer;
+	
+	private JLabel dupeImg;
+	private JLabel refundImg;
+	private JLabel dupeL;
+	private JLabel refundL;
 	
 	private JLabel deckSize;
 	private JLabel discardSize;
@@ -82,6 +87,9 @@ public class gameGUI extends JFrame {
 		BufferedImage discardImageFile = null;
 		BufferedImage exhaustImageFile = null;
 		BufferedImage timeImageFile = null;
+		BufferedImage dupeImageFile = null;
+		BufferedImage refundImageFile = null;
+
 		
 		try {
 			deckImageFile = ImageIO.read(getClass().getResource("img/deck.png"));
@@ -125,6 +133,18 @@ public class gameGUI extends JFrame {
 			e.printStackTrace();
 			System.out.println("Error: can't find sad image");
 		}
+		try {
+			dupeImageFile = ImageIO.read(getClass().getResource("img/cardDupe.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find dupe image");
+		}
+		try {
+			refundImageFile = ImageIO.read(getClass().getResource("img/rewind.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error: can't find rewind image");
+		}
 		
 		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
 		deckImage.setAlignmentX(CENTER_ALIGNMENT);
@@ -134,6 +154,11 @@ public class gameGUI extends JFrame {
 		exhaustImage.setAlignmentX(CENTER_ALIGNMENT);
 		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(80, 90, Image.SCALE_FAST)));
 		timeImage.setAlignmentX(CENTER_ALIGNMENT);
+		dupeImg = new JLabel(new ImageIcon(dupeImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
+		dupeImg.setAlignmentX(CENTER_ALIGNMENT);
+		refundImg = new JLabel(new ImageIcon(refundImageFile.getScaledInstance(80, 90, Image.SCALE_FAST)));
+		refundImg.setAlignmentX(CENTER_ALIGNMENT);
+		
 		deckSize = new JLabel("0");
 		deckSize.setFont(new Font(deckSize.getFont().getName(), Font.BOLD, 30));
 		discardSize = new JLabel("0");
@@ -144,6 +169,10 @@ public class gameGUI extends JFrame {
 		timer.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
 		mana = new JLabel("0");
 		mana.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
+		dupeL = new JLabel("0");
+		dupeL.setFont(new Font(dupeL.getFont().getName(), Font.BOLD, 30));
+		refundL = new JLabel("0");
+		refundL.setFont(new Font(refundL.getFont().getName(), Font.BOLD, 30));
 		
 		endTurn = new JButton("End Turn");
 		endTurn.addActionListener(new ActionListener(){
@@ -159,16 +188,30 @@ public class gameGUI extends JFrame {
 		timerP.add(deckImage);
 		timerP.add(Box.createHorizontalStrut(30));
 		timerP.add(deckSize);
+		timerP.add(Box.createHorizontalStrut(50));
+		timerP.add(dupeImg);
+		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(dupeL);
 		timerP.add(Box.createHorizontalGlue());
 		timerP.add(timer);
 		timerP.add(Box.createHorizontalGlue());
+		timerP.add(refundImg);
+		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(refundL);
+		timerP.add(Box.createHorizontalStrut(50));
 		timerP.add(discardImage);
 		timerP.add(Box.createHorizontalStrut(30));
 		timerP.add(discardSize);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut(50));
 		timerP.add(exhaustImage);
 		timerP.add(Box.createHorizontalStrut(30));
 		timerP.add(exhaustSize);
+
+		refundL.setVisible(false);
+		refundImg.setVisible(false);
+		dupeL.setVisible(false);
+		dupeImg.setVisible(false);
+
 		
 		riderP = new JPanel();
 		riderP.setLayout(new BoxLayout(riderP, BoxLayout.X_AXIS));
@@ -223,6 +266,34 @@ public class gameGUI extends JFrame {
 	}
 	public void exhaustSize(int i) {
 		exhaustSize.setText(Integer.toString(i));
+	}
+	public void updateBuffs() {
+		int ref = ride.refund;
+		if(ref!=0) {
+			refundL.setText(Integer.toString(ref));
+			enableRefund();
+		}
+		int dup = ride.playTwice;
+		if(dup!=0) {
+			dupeL.setText(Integer.toString(dup));
+			enableDupe();
+		}
+		if(ride.refundRegen>0)
+			enableRefund();
+		if(ride.playTwiceRegen>0)
+			enableDupe();
+	}
+	private void enableRefund() {
+		if(refundL.isVisible()&&refundImg.isVisible())
+			return;
+		refundL.setVisible(true);
+		refundImg.setVisible(true);
+	}
+	private void enableDupe() {
+		if(dupeImg.isVisible()&&dupeL.isVisible())
+			return;
+		dupeL.setVisible(true);
+		dupeImg.setVisible(true);
 	}
 	
 	public void drawRiders() {

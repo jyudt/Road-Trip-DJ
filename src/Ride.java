@@ -231,6 +231,7 @@ public class Ride {
 		gui.setTimer(remainingTurns);
 		gui.passTime(currentMana);
 		gui.drawRiders();
+		gui.updateBuffs();
 	}
 	
 	public ArrayList<Rider> getRiders() {
