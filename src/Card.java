@@ -70,6 +70,31 @@ public abstract class Card {
 			r.currentMana++;
 			r.drawCard(1);
 			return;
+			
+		//hip-hop
+		case("Fight The Power"):
+			return;
+		case("Keep Ya Head Up"):
+			return;
+		case("C.R.E.A.M"):
+			r.drawCard(3);
+			r.discardCard(-1);
+			return;
+		case("Lose Yourself"):
+			r.discardHand();
+			r.drawCard(4);
+			return;
+		case("It Was A Good Day"):
+			r.drawCard(2);
+			return;
+		case("Still D.R.E."):
+			r.addToHand(Main.getCard("Nothin\' But A G Thang"));
+			return;
+		case("Gangsta's Paradise"):
+			while(r.hand.size()<r.MAX_HAND_SIZE && r.discard.size()>0) {
+				r.addToHand(r.discard.remove(r.discard.size()-1));
+			}
+			return;
 		
 		//pop
 		case("Thriller"):
@@ -111,6 +136,12 @@ public abstract class Card {
 			r.addToHand(c);
 			return;
 
+		//hiphop-gen
+		case("Nothin\' But A G Thang"):
+			r.drawCard(2);
+			r.discardCard(-1);
+			return;
+		
 		//pop-gen
 		case("Everybody"):
 			r.hand.get((int) ((Math.random()*r.hand.size()))).cost=0;
@@ -167,6 +198,22 @@ public abstract class Card {
 		case("Closer"):
 			return "Add a Time.  Draw a card.";
 		
+		//hip-hop
+		case("Fight The Power"):
+			return "";
+		case("Keep Ya Head Up"):
+			return "";
+		case("C.R.E.A.M"):
+			return "Draw 3 cards, then discard a random card.";
+		case("Lose Yourself"):
+			return "Discard your hand, then draw 4 cards.";
+		case("It Was A Good Day"):
+			return "Draw 2 cards.";
+		case("Still D.R.E."):
+			return "Add a \"Nothin' But A G Thang\" to your hand.";
+		case("Gangsta's Paradise"):
+			return "Draw all cards from your discard pile.  Exhaust.";
+		
 		//pop
 		case("Thriller"):
 			return "";
@@ -191,6 +238,9 @@ public abstract class Card {
 		case("Get Lucky"):
 			return "Add a random card to your hand.  It costs 0.  Exhaust.";
 					
+		//hiphop-gen
+		case("Nothin\' But A G Thang"):
+			return "Draw 2 cards, then discard a random card.  Exhaust.";
 		
 		//pop-gen
 		case("Everybody"):
@@ -211,6 +261,8 @@ public abstract class Card {
 	
 	public boolean exhausts() {
 		switch(name) {
+		case("Gangsta's Paradise"):
+		case("Nothin\' But A G Thang"):
 		case("Digital Love"):
 		case("One More Time"):
 		case("Get Lucky"):

@@ -176,11 +176,21 @@ public class Ride {
 		updateGui();
 	}
 	
-	private void discardHand() {
+	public void discardHand() {
 		while(hand.size()>0) {
 			discard.add(hand.remove(0));
 		}
 		updateHand();
+	}
+	
+	public Card discardCard(int i) {
+		if(hand.size()==0) {
+			return null;
+		}
+		if(i==-1) {
+			i=(int)(Math.random()*hand.size());
+		}
+		return hand.remove(i);
 	}
 	
 	public void drawCard(int n) {

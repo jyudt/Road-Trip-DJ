@@ -11,7 +11,7 @@ public class Main {
 		//deck of every card
 		
 		for(Card c:normCards) {
-			if(c.getType().equals("Electronic"))
+			if(c.getType().equals("HipHop"))
 				mainDeck.add((Card)c.clone());
 		}
 		
@@ -41,6 +41,15 @@ public class Main {
 		normCards.add(new Electronic("Digital Love",1));
 		normCards.add(new Electronic("Around The World",1));
 		normCards.add(new Electronic("Closer",1));
+		
+		//hip-hop
+		normCards.add(new HipHop("Fight The Power",1));
+		normCards.add(new HipHop("Keep Ya Head Up",0));
+		normCards.add(new HipHop("C.R.E.A.M",1));
+		normCards.add(new HipHop("Lose Yourself",1));
+		normCards.add(new HipHop("It Was A Good Day",1));
+		normCards.add(new HipHop("Still D.R.E.",1));
+		normCards.add(new HipHop("Gangsta's Paradise",3));
 
 		//pop
 		normCards.add(new Pop("Thriller",1));
@@ -59,6 +68,9 @@ public class Main {
 		//electronic-gen
 		allCards.add(new Electronic("One More Time",1));
 		allCards.add(new Electronic("Get Lucky",1));
+		
+		//hiphop-gen
+		allCards.add(new HipHop("Nothin\' But A G Thang",0));
 		
 		//pop-gen
 		allCards.add(new Pop("Everybody",1));
