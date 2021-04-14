@@ -22,7 +22,7 @@ public class gameGUI extends JFrame {
 	ArrayList<String> cardImageNames = new ArrayList<String>();
 	private final Dimension CARD_DIM =new Dimension(180,300); 
 	private final Dimension CARD_TEXT_DIM =new Dimension(165,130); 
-	private final Dimension HAND_SIZE_DIM = new Dimension(1850, 320); 
+	private final Dimension HAND_SIZE_DIM = new Dimension(1880, 320); 
 	private final Dimension TIMER_SIZE_DIM = new Dimension(1850, 100); 
 	private final Dimension RIDERS_SIZE_DIM = new Dimension(1850, 500); 
 	private final Dimension MANA_SIZE_DIM = new Dimension(1850, 100);
@@ -232,7 +232,7 @@ public class gameGUI extends JFrame {
 			JPanel rdr = drawRider(riders.get(i));
 			rdr.setMaximumSize(RIDER_SIZE_DIM);
 			riderP.add(rdr);
-			if(i<riders.size()-1)
+			if(i<riders.size())
 				riderP.add(Box.createHorizontalStrut(10));
 		}
 		riderP.add(Box.createHorizontalGlue());

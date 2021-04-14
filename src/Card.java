@@ -115,6 +115,32 @@ public abstract class Card {
 		case("Uptown Funk"):
 			r.deck.add(Main.getCard("Locked Out of Heaven"));
 			return;
+			
+		//classical
+		case("Für Elise"):
+			return;
+		case("Toccata and Fugue"):
+			return;
+		case("Symphony No.5"):
+			r.maxMana++;
+			return;
+		case("The Four Seasons"):
+			double sep = r.deck.size()/4;
+			r.deck.add(0,Main.getCard("Spring"));
+			r.deck.add((int)sep,Main.getCard("Summer"));
+			r.deck.add((int)(sep*2),Main.getCard("Autumn"));
+			r.deck.add(Main.getCard("Winter"));
+			return;
+		case("William Tell Overture"):
+			r.turnStartCards++;
+			return;
+		case("Blue Danube"):
+			r.maxMana+=2;
+			return;
+		case("1812 Overture"):
+			r.playTwiceRegen++;
+			return;
+		
 		
 		//rock-gen
 		case("We Are The Champions"):
@@ -159,7 +185,22 @@ public abstract class Card {
 			r.drawCard(2);
 			return;
 
-			
+		//classical-gen
+		case("Spring"):
+			r.refundRegen++;
+			return;
+		case("Summer"):
+			r.turnStartCards+=2;
+			return;
+		case("Autumn"):
+			for(Card h:r.hand)
+				h.cost=0;
+			return;
+		case("Winter"):
+			while(r.exhaust.size()>0) {
+				r.deck.add(r.exhaust.remove(0));
+			}
+			return;
 			
 		}
 	}
@@ -228,6 +269,24 @@ public abstract class Card {
 		case("Uptown Funk"):
 			return "Create a “Locked Out of Heaven” on the bottom of your deck.";
 		
+		//classical
+		case("Für Elise"):
+			return "";
+		case("Toccata and Fugue"):
+			return "";
+		case("Symphony No.5"):
+			return "Gain 1 extra Time at the start of each turn.  Exhaust.";
+		case("The Four Seasons"):
+			return "Add the Four Seasons to your deck.  Exhaust.";
+		case("William Tell Overture"):
+			return "Draw an extra card each turn.  Exhaust";
+		case("Blue Danube"):
+			return "Gain 2 extra Time at the start of each turn.  Exhaust.";
+		case("1812 Overture"):
+			return "Double the first card you play each turn.  Exhaust.";
+		
+		
+		
 		//rock-gen
 		case("We Are The Champions"):
 			return "Advance the turn counter by 1.  Exhaust.";
@@ -254,6 +313,16 @@ public abstract class Card {
 		case("Locked Out of Heaven"):
 			return "Draw 2 cards.  Exhaust.";
 		
+		//classical-gen
+		case("Spring"):
+			return "Each turn, refund the Time for the first card played.  Exhaust.";
+		case("Summer"):
+			return "Draw 2 extra cards at the start of your turn.  Exhaust.";
+		case("Autumn"):
+			return "Set the cost of all cards in hand to 0.  Exhaust.";
+		case("Winter"):
+			return "Return all exhausted cards to your deck.  Exhaust.";
+		
 		}
 		
 		return "missing card text";
@@ -261,6 +330,15 @@ public abstract class Card {
 	
 	public boolean exhausts() {
 		switch(name) {
+		case("Symphony No.5"):
+		case("The Four Seasons"):
+		case("William Tell Overture"):
+		case("Blue Danube"):
+		case("1812 Overture"):
+		case("Spring"):
+		case("Summer"):
+		case("Autumn"):
+		case("Winter"):
 		case("Gangsta's Paradise"):
 		case("Nothin\' But A G Thang"):
 		case("Digital Love"):

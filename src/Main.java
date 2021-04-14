@@ -11,7 +11,11 @@ public class Main {
 		//deck of every card
 		
 		for(Card c:normCards) {
-			if(c.getType().equals("HipHop"))
+			if(c.getType().equals("Classical"))
+				mainDeck.add((Card)c.clone());
+		}
+		for(Card c:normCards) {
+			if(c.getType().equals("Classical"))
 				mainDeck.add((Card)c.clone());
 		}
 		
@@ -59,6 +63,14 @@ public class Main {
 		normCards.add(new Pop("Hollaback Girl",1));
 		normCards.add(new Pop("Uptown Funk",1));
 		
+		//classical
+		normCards.add(new Classical("Für Elise",1));
+		normCards.add(new Classical("Toccata and Fugue",0));
+		normCards.add(new Classical("Symphony No.5",3));
+		normCards.add(new Classical("The Four Seasons",3));
+		normCards.add(new Classical("William Tell Overture",2));
+		normCards.add(new Classical("Blue Danube",5));
+		normCards.add(new Classical("1812 Overture",4));
 		
 		
 		allCards =  new ArrayList<Card>();
@@ -78,19 +90,12 @@ public class Main {
 		allCards.add(new Pop("Any Way You Want It",0));
 		allCards.add(new Rock("Don't Speak",1));
 		allCards.add(new Pop("Locked Out of Heaven",0));
-
-
 		
-		
-		/**
-		allCards.add(new Rock("Black Hole Sun",1));
-		allCards.add(new Pop("I Want It That Way",1));
-		allCards.add(new Rock("Bohemian Rhapsody",1));
-		allCards.add(new Electronic("Around the World",1));
-		allCards.add(new Electronic("Get Lucky",1));
-		allCards.add(new Electronic("Digital Love",1));
-		allCards.add(new Electronic("Monophobia",1));
-		*/
+		//classical-gen
+		allCards.add(new Classical("Spring",3));
+		allCards.add(new Classical("Summer",3));
+		allCards.add(new Classical("Autumn",3));
+		allCards.add(new Classical("Winter",3));
 	}
 	
 	public static Card getCard(String search) {

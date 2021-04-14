@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Ride {
 	ArrayList<Card> allCards;
 	ArrayList<Card> mainDeck;
@@ -15,9 +16,12 @@ public class Ride {
 	final int RIDE_DURATION;
 	int remainingTurns = -1;
 	int turnStartCards = 5;
-	final int MAX_HAND_SIZE = 10;
+	final int MAX_HAND_SIZE = 9;
 	private int input;
 	public int playTwice = 0;
+	public int playTwiceRegen = 0;
+	public int refund = 0;
+	public int refundRegen = 0;
 
 	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {
 		this.allCards = allCards;
@@ -46,6 +50,8 @@ public class Ride {
 		gui.setTimer(remainingTurns);
 		drawCard(turnStartCards);
 		currentMana = maxMana;
+		playTwice = playTwiceRegen;
+		refund = refundRegen;
 		System.out.println("Turns Remaining: "+remainingTurns);
 		System.out.println("Your Turn.");
 		input = -2;
@@ -98,13 +104,13 @@ public class Ride {
 				continue;
 			} else {
 				currentMana -= played.getCost();
+				if(refund>0) {
+					currentMana+=played.getCost();
+					refund--;
+				}
 			}
 			hand.remove(input);
-			if(played.exhausts()) {
-				exhaust.add(played);
-			} else {
-				discard.add(played);
-			}
+
 			System.out.println("You played: "+played.getName());
 			System.out.println();
 
@@ -118,6 +124,11 @@ public class Ride {
 					r.reactToCard(played);
 				}
 				playTwice--;
+			}
+			if(played.exhausts()) {
+				exhaust.add(played);
+			} else {
+				discard.add(played);
 			}
 			updateGui();
 		}
