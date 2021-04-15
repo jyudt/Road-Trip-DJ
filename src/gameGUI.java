@@ -541,5 +541,10 @@ public class gameGUI extends JFrame {
 		JOptionPane.showMessageDialog(this, msg + " sick of your music.  Game Over!");
 		return 0;
 	}
+	
+	public int gameWin() {
+		JOptionPane.showMessageDialog(this,"Congratulations!  You've reached your destination with everyone still happy.  You win!");
+		return 0;
+	}
 
 }

@@ -43,7 +43,10 @@ public class Ride {
 			riderTurn();
 			checkForLoss();
 		}
+		updateGui();
+		gui.gameWin();
 		System.out.println("Congratulations!  You've reached your destination with everyone still happy.  You win!");
+		return;
 	}
 	
 	private void playerTurn(){
@@ -154,6 +157,7 @@ public class Ride {
 		}
 		if(madRiders.size()==0)
 			return;
+		/**
 		int btn = -1;
 		btn = gui.gameOver(madRiders);
 		while(btn==-1) {
@@ -164,7 +168,7 @@ public class Ride {
 				e.printStackTrace();
 			}
 		}
-		
+		*/
 		/**
 		if(madRiders.size()==1)
 			System.out.println(madRiders.get(0).getName()+ " is sick of your music.  Game over!");
