@@ -401,7 +401,6 @@ public class gameGUI extends JFrame {
 		}
 		hand.add(Box.createHorizontalGlue());
 		hand.updateUI();
-		System.out.println(handList.toString());
 	}
 	
 	public void passHand(ArrayList<Card> inp) {
@@ -456,7 +455,7 @@ public class gameGUI extends JFrame {
 		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(150, 120, Image.SCALE_FAST)));
 		cardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
-		JLabel type = new JLabel(c.getType().substring(0,1));
+		JLabel type = new JLabel(c.getType().substring(0,1)+ " ");
 		JLabel manaCost = new JLabel(" "+Integer.toString(c.getCost())+" ");
 		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, 20));
 		manaCost.setBackground(Color.white);

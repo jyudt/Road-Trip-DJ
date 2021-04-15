@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class Card {
 	protected String name;
@@ -35,6 +36,8 @@ public abstract class Card {
 		case("Sweet Emotion"):
 			return;
 		case("Back in Black"):
+			if(r.discard.size()==0)
+				return;
 			index = (int)(Math.random()*r.discard.size());
 			r.addToHand(r.discard.remove(index));
 			return;
@@ -52,12 +55,11 @@ public abstract class Card {
 		//electronic
 		case("Lean On"):
 			return;
-		case("Helicopter"):
+		case("Wake Me Up"):
 			return;
 		case("Turn Down For What"):
 			r.currentMana+=2;
-			index = (int)(Math.random()*r.hand.size());
-			r.discard.add(r.hand.remove(index));
+			r.discardCard(-1);
 			return;
 		case("Digital Love"):
 			r.addToHand(Main.getCard("One More Time"));
@@ -110,7 +112,7 @@ public abstract class Card {
 			r.deck.add(pos,Main.getCard("Any Way You Want It"));
 			return;
 		case("Hollaback Girl"):
-			r.hand.add(Main.getCard("Don't Speak"));
+			r.addToHand(Main.getCard("Don't Speak"));
 			return;
 		case("Uptown Funk"):
 			r.deck.add(Main.getCard("Locked Out of Heaven"));
@@ -125,11 +127,11 @@ public abstract class Card {
 			r.maxMana++;
 			return;
 		case("The Four Seasons"):
-			double sep = r.deck.size()/4;
-			r.deck.add(0,Main.getCard("Spring"));
-			r.deck.add((int)sep,Main.getCard("Summer"));
-			r.deck.add((int)(sep*2),Main.getCard("Autumn"));
+			double sep = Math.ceil(r.deck.size()/4);
 			r.deck.add(Main.getCard("Winter"));
+			r.deck.add((int)(sep*2),Main.getCard("Autumn"));
+			r.deck.add((int)sep,Main.getCard("Summer"));
+			r.deck.add(0,Main.getCard("Spring"));
 			return;
 		case("William Tell Overture"):
 			r.turnStartCards++;
@@ -194,15 +196,22 @@ public abstract class Card {
 			return;
 		case("Autumn"):
 			index=0;
-			while(r.exhaust.size()>0 && index<3) {
+			while(r.exhaust.size()>0 && index<4) {
 				r.deck.add(r.exhaust.remove(0));
 				index++;
 			}
 			return;
 			
 		case("Winter"):
-			for(Card h:r.hand)
-				h.cost=0;
+			ArrayList<Integer> indeces = new ArrayList<Integer>();
+			for(int i=0;i<r.hand.size();i++) {
+				indeces.add(i);
+			}
+			Collections.shuffle(indeces);
+			for(int i=0;i<4;i++) {
+				r.hand.get(indeces.get(i)).cost=0;
+			}
+			
 			return;
 			
 		}
@@ -231,7 +240,7 @@ public abstract class Card {
 		//electronic
 		case("Lean On"):
 			return "";
-		case("Helicopter"):
+		case("Wake Me Up"):
 			return "";
 		case("Turn Down For What"):
 			return "Add 2 Time.  Discard a random card in hand.";
@@ -322,9 +331,9 @@ public abstract class Card {
 		case("Summer"):
 			return "Draw 2 extra cards at the start of your turn.  Exhaust.";
 		case("Autumn"):
-			return "Return 3 exhausted cards to your deck.  Exhaust.";
+			return "Return 4 exhausted cards to your deck.  Exhaust.";
 		case("Winter"):
-			return "Set the cost of all cards in hand to 0.  Exhaust.";
+			return "Set the cost of 4 cards in hand to 0.  Exhaust.";
 		
 		}
 		

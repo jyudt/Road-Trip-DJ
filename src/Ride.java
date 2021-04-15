@@ -11,7 +11,7 @@ public class Ride {
 	ArrayList<Card> exhaust = new ArrayList<Card>();
 	ArrayList<Rider> riders = new ArrayList<Rider>();
 	gameGUI gui;
-	int maxMana = 3;
+	int maxMana = 500;
 	int currentMana;
 	final int RIDE_DURATION;
 	int remainingTurns = -1;
@@ -59,9 +59,11 @@ public class Ride {
 		System.out.println("Your Turn.");
 		input = -2;
 		while(input!=-1) {
-			gui.passTime(currentMana);
+			updateGui();
 			input = -2;
 			System.out.println("You have "+currentMana+" mana.");
+			System.out.println("You have "+playTwice+ " repeats.");
+			System.out.println("You have "+refund+" refunds.");
 			System.out.println("~~~~~~~~~~~~~~~~~~");
 			System.out.println("Riders:");
 			for(Rider r:riders) {
@@ -157,30 +159,7 @@ public class Ride {
 		}
 		if(madRiders.size()==0)
 			return;
-		/**
-		int btn = -1;
-		btn = gui.gameOver(madRiders);
-		while(btn==-1) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
-		/**
-		if(madRiders.size()==1)
-			System.out.println(madRiders.get(0).getName()+ " is sick of your music.  Game over!");
-		if(madRiders.size()>1) {
-			String out = madRiders.remove(0).getName();
-			for(Rider r:madRiders) {
-				out+= " and "+r.getName();
-			}
-			out+= " are sick of your music.  Game over!";
-			System.out.println(out);
-		}
-		*/
+		gui.gameOver(madRiders);
 		System.exit(0);
 	}
 	
@@ -192,7 +171,7 @@ public class Ride {
 			while(discard.size()>0) {
 				deck.add(discard.remove(0));
 			}
-		Collections.shuffle(deck);
+			Collections.shuffle(deck);
 		}
 		Card toDraw = deck.remove(0);
 		if(hand.size()<MAX_HAND_SIZE) {
@@ -256,7 +235,10 @@ public class Ride {
 	}
 	
 	public void addToHand(Card c) {
-		hand.add(c);
+		if(hand.size()>=MAX_HAND_SIZE)
+			discard.add(c);
+		else
+			hand.add(c);
 		updateHand();
 	}
 	

@@ -9,18 +9,19 @@ public class Main {
 		initializeCards();
 		//don't do this for the real game
 		//deck of every card
-		
+		/**
 		for(Card c:normCards) {
 			//if(c.getType().equals("Classical"))
 				mainDeck.add((Card)c.clone());
 		}
 		
-		for(int i=0;i<mainDeck.size();i++) {
-			//System.out.println(i+ " "+mainDeck.get(i));
-		}
+		*/
+		mainDeck.add(getCard("The Four Seasons"));
+		mainDeck.add(getCard("The Four Seasons"));
+		mainDeck.add(getCard("The Four Seasons"));
+		mainDeck.add(getCard("The Four Seasons"));
 		Ride ride = new Ride(allCards, mainDeck,20, 3);
 		ride.beginRide();
-		//gameGUI myGui = new gameGUI();
 	}
 	
 	
@@ -36,7 +37,7 @@ public class Main {
 		
 		//electronic
 		normCards.add(new Electronic("Lean On",1));
-		normCards.add(new Electronic("Helicopter",0));
+		normCards.add(new Electronic("Wake Me Up",0));
 		normCards.add(new Electronic("Turn Down For What",1));
 		normCards.add(new Electronic("Digital Love",1));
 		normCards.add(new Electronic("Around The World",1));
@@ -70,6 +71,10 @@ public class Main {
 		
 		
 		allCards =  new ArrayList<Card>();
+		for(Card c:normCards) {
+			allCards.add((Card) c.clone());
+		}
+		
 		//rock-gen
 		allCards.add(new Rock("We Are The Champions",3));
 		
