@@ -11,7 +11,7 @@ public class Ride {
 	ArrayList<Card> exhaust = new ArrayList<Card>();
 	ArrayList<Rider> riders = new ArrayList<Rider>();
 	gameGUI gui;
-	int maxMana = 500;
+	int maxMana = 3;
 	int currentMana;
 	final int RIDE_DURATION;
 	int remainingTurns = -1;

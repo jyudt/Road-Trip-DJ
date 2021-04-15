@@ -16,11 +16,8 @@ public class Main {
 		}
 		
 		*/
-		mainDeck.add(getCard("The Four Seasons"));
-		mainDeck.add(getCard("The Four Seasons"));
-		mainDeck.add(getCard("The Four Seasons"));
-		mainDeck.add(getCard("The Four Seasons"));
-		Ride ride = new Ride(allCards, mainDeck,20, 3);
+		mainDeck = buildDefaultDeck();
+		Ride ride = new Ride(allCards, mainDeck,10, 3);
 		ride.beginRide();
 	}
 	
@@ -117,5 +114,141 @@ public class Main {
 		}
 		int index = (int)(Math.random()*normCards.size());
 		return (Card) normCards.get(index).clone();
+	}
+	
+	private static ArrayList<Card> buildDefaultDeck() {
+		int main =(int) (Math.random()*5);
+		int sub=(int) (Math.random()*5);
+		int[] nums = {main,sub};
+		String choice = "Your deck is: ";
+		ArrayList<Card> myDeck = new ArrayList<Card>();
+		int rng;
+		for(int n:nums) {
+			switch(n) {
+			case(0):
+				choice+="rock";
+				//rock
+				for(int i=0;i<7;i++)
+					myDeck.add(Main.getCard("Black Hole Sun"));
+				for(int i=0;i<3;i++)
+					myDeck.add(Main.getCard("Sweet Emotion"));
+				rng = 0;
+				for(int i=0;i<7;i++) {
+					rng = (int)(Math.random()*100);
+					if(rng<50) {
+						continue;
+					} else if(rng<65) {
+						myDeck.add(Main.getCard("Back In Black"));
+					} else if(rng<80) {
+						myDeck.add(Main.getCard("Bohemian Rhapsody"));
+					} else if(rng<95) {
+						myDeck.add(Main.getCard("Livin' On A Prayer"));
+					} else {
+						myDeck.add(Main.getCard("We Will Rock You"));
+					}
+				}
+				break;
+			case(1):
+				choice+="electronic";
+				//electronic
+				for(int i=0;i<7;i++)
+					myDeck.add(Main.getCard("Lean On"));
+				for(int i=0;i<3;i++)
+					myDeck.add(Main.getCard("Wake Me Up"));
+				rng = 0;
+				for(int i=0;i<7;i++) {
+					rng = (int)(Math.random()*100);
+					if(rng<48) {
+						continue;
+					} else if(rng<61) {
+						myDeck.add(Main.getCard("Turn Down For What"));
+					} else if(rng<74) {
+						myDeck.add(Main.getCard("Digital Love"));
+					} else if(rng<87) {
+						myDeck.add(Main.getCard("Around The World"));
+					} else {
+						myDeck.add(Main.getCard("Closer"));
+					}
+				}
+				break;
+			case(2):
+				choice+="hip-hop";
+				//hip-hop
+				for(int i=0;i<7;i++)
+					myDeck.add(Main.getCard("Fight The Power"));
+				for(int i=0;i<3;i++)
+					myDeck.add(Main.getCard("Keep Ya Head Up"));
+				rng = 0;
+				for(int i=0;i<7;i++) {
+					rng = (int)(Math.random()*100);
+					if(rng<49) {
+						continue;
+					} else if(rng<61) {
+						myDeck.add(Main.getCard("C.R.E.A.M"));
+					} else if(rng<73) {
+						myDeck.add(Main.getCard("Lose Yourself"));
+					} else if(rng<85) {
+						myDeck.add(Main.getCard("It Was A Good Day"));
+					} else if(rng<95) {
+						myDeck.add(Main.getCard("Still D.R.E."));
+					} else {
+						myDeck.add(Main.getCard("Gangsta's Paradise"));
+					}
+				}
+				break;
+			case(3):
+				choice+="pop";
+				//pop
+				for(int i=0;i<7;i++)
+					myDeck.add(Main.getCard("Thriller"));
+				for(int i=0;i<3;i++)
+					myDeck.add(Main.getCard("Shake It Off"));
+				rng = 0;
+				for(int i=0;i<7;i++) {
+					rng = (int)(Math.random()*100);
+					if(rng<51) {
+						continue;
+					} else if(rng<64) {
+						myDeck.add(Main.getCard("I Want It That Way"));
+					} else if(rng<77) {
+						myDeck.add(Main.getCard("Don't Stop Believing"));
+					} else if(rng<90) {
+						myDeck.add(Main.getCard("Uptown Funk"));
+					} else {
+						myDeck.add(Main.getCard("Hollaback Girl"));
+					}
+				}
+				break;
+			case(4):
+				choice+="classical";
+				//classical
+				for(int i=0;i<7;i++)
+					myDeck.add(Main.getCard("Für Elise"));
+				for(int i=0;i<3;i++)
+					myDeck.add(Main.getCard("Toccata and Fugue"));
+				rng = 0;
+				for(int i=0;i<7;i++) {
+					rng = (int)(Math.random()*100);
+					if(rng<50) {
+						continue;
+					} else if(rng<64) {
+						myDeck.add(Main.getCard("Symphony No.5"));
+					} else if(rng<78) {
+						myDeck.add(Main.getCard("William Tell Overture"));
+					} else if(rng<83) {
+						myDeck.add(Main.getCard("Blue Danube"));
+					} else if(rng<90) {
+						myDeck.add(Main.getCard("1812 Overture"));
+					} else {
+						myDeck.add(Main.getCard("The Four Seasons"));
+					}
+				}
+				break;
+			}
+			choice+= " and ";
+		}
+		choice = choice.substring(0,choice.length()-4);
+		System.out.println(choice);
+		return myDeck;
 	}
 }

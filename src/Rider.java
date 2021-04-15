@@ -124,12 +124,12 @@ public class Rider {
 	}
 	
 	public void takeTurn() {
-		int happinessIncrease = -30;
+		int happinessIncrease = -40;
 		if(lastHeard!=null && lastHeard.getClass().equals(likes.getClass())) {
-			happinessIncrease = -15;
+			happinessIncrease = -20;
 		}
 		if(lastHeard!=null && dislikes!=null && lastHeard.getClass().equals(dislikes.getClass())) {
-			happinessIncrease = -40;
+			happinessIncrease = -50;
 		}
 		gainHappiness(happinessIncrease);
 		lastHeard = null;

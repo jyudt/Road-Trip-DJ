@@ -543,6 +543,7 @@ public class gameGUI extends JFrame {
 	
 	public int gameWin() {
 		JOptionPane.showMessageDialog(this,"Congratulations!  You've reached your destination with everyone still happy.  You win!");
+		dispose();
 		return 0;
 	}
 
