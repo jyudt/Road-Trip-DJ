@@ -11,11 +11,7 @@ public class Main {
 		//deck of every card
 		
 		for(Card c:normCards) {
-			if(c.getType().equals("Classical"))
-				mainDeck.add((Card)c.clone());
-		}
-		for(Card c:normCards) {
-			if(c.getType().equals("Classical"))
+			//if(c.getType().equals("Classical"))
 				mainDeck.add((Card)c.clone());
 		}
 		

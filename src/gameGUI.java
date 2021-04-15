@@ -457,8 +457,10 @@ public class gameGUI extends JFrame {
 		cardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
 		JLabel type = new JLabel(c.getType().substring(0,1));
-		JLabel manaCost = new JLabel(Integer.toString(c.getCost()));
+		JLabel manaCost = new JLabel(" "+Integer.toString(c.getCost())+" ");
 		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, 20));
+		manaCost.setBackground(Color.white);
+		manaCost.setOpaque(true);
 
 		
 		textP.setMaximumSize(CARD_TEXT_DIM);
@@ -491,7 +493,28 @@ public class gameGUI extends JFrame {
 		cardP.add(Box.createVerticalGlue());
 		cardP.add(textP);
 		cardP.add(Box.createVerticalGlue());
-		cardP.setBackground(Color.red);
+		//cardP.setBorder(BorderFactory.createLineBorder(Color.black));
+		Color labelC = null;
+		switch(c.getType()) {
+		case("Rock"):
+			labelC = (Color.decode("#e05f5f"));
+			break;
+		case("Pop"):
+			labelC = (Color.decode("#b6b9f7"));
+			break;
+		case("Electronic"):
+			labelC = (Color.decode("#baf4a8"));
+			break;
+		case("HipHop"):
+			labelC = (Color.decode("#eefb8e"));
+			break;
+		case("Classical"):
+			labelC = (Color.decode("#a8ebf4"));
+			break;
+		}
+		cardP.setBackground(labelC);
+		topP.setBackground(labelC);
+		
 		
 		cardP.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -500,9 +523,23 @@ public class gameGUI extends JFrame {
 			}
 		});
 		
-		topP.setBackground(Color.red);
-		
 		return cardP;
+	}
+	
+	public int gameOver(ArrayList<Rider> rs) {
+		String msg = "";
+		if(rs.size()==0) {
+			return -1;
+		} else if (rs.size()==1) {
+			msg+=rs.get(0).getName()+ " is";
+		} else {
+			for(Rider rdr:rs) {
+				msg+=rdr.getName()+ " and ";
+			}
+			msg = msg.substring(0,msg.length()-4) + "are";
+		}
+		JOptionPane.showMessageDialog(this, msg + " sick of your music.  Game Over!");
+		return 0;
 	}
 
 }

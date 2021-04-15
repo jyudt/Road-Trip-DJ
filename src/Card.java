@@ -193,13 +193,16 @@ public abstract class Card {
 			r.turnStartCards+=2;
 			return;
 		case("Autumn"):
+			index=0;
+			while(r.exhaust.size()>0 && index<3) {
+				r.deck.add(r.exhaust.remove(0));
+				index++;
+			}
+			return;
+			
+		case("Winter"):
 			for(Card h:r.hand)
 				h.cost=0;
-			return;
-		case("Winter"):
-			while(r.exhaust.size()>0) {
-				r.deck.add(r.exhaust.remove(0));
-			}
 			return;
 			
 		}
@@ -319,9 +322,9 @@ public abstract class Card {
 		case("Summer"):
 			return "Draw 2 extra cards at the start of your turn.  Exhaust.";
 		case("Autumn"):
-			return "Set the cost of all cards in hand to 0.  Exhaust.";
+			return "Return 3 exhausted cards to your deck.  Exhaust.";
 		case("Winter"):
-			return "Return all exhausted cards to your deck.  Exhaust.";
+			return "Set the cost of all cards in hand to 0.  Exhaust.";
 		
 		}
 		
