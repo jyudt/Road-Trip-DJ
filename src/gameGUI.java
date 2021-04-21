@@ -63,6 +63,7 @@ public class gameGUI extends JFrame {
 	private Ride ride;
 	
 	public gameGUI(Ride r) {
+		super("Road Trip DJ");
 		ride = r;
 		riders=r.getRiders();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -246,6 +247,9 @@ public class gameGUI extends JFrame {
 		drawRiders();
 
 		
+		hand.setBackground(Color.decode("#f7f6bc"));
+		riderP.setBackground(Color.decode("#c4c4c4"));
+		
 		setVisible(true);
 
 	}
@@ -361,6 +365,7 @@ public class gameGUI extends JFrame {
 		JLabel likes = new JLabel(r.getLikesString().substring(0,1));
 		likes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 30));
 		likes.setForeground(Color.green.darker());
+		likesP.add(Box.createHorizontalGlue());
 		likesP.add(likes);
 		
 		if(r.getDislikes()!=null) {
@@ -377,6 +382,7 @@ public class gameGUI extends JFrame {
 			likesP.add(Box.createHorizontalStrut(10));
 			likesP.add(tr);
 		}
+		likesP.add(Box.createHorizontalGlue());
 		
 		rider.add(name);
 		rider.add(Box.createVerticalStrut(5));
@@ -385,6 +391,8 @@ public class gameGUI extends JFrame {
 		rider.add(healthP);
 		rider.add(Box.createVerticalStrut(5));
 		rider.add(likesP);
+		
+		rider.setOpaque(false);
 		
 		return rider;
 	}
@@ -452,10 +460,10 @@ public class gameGUI extends JFrame {
 		JLabel title = new JLabel(c.getName());
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 18));
-		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(150, 120, Image.SCALE_FAST)));
+		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(150, 120, Image.SCALE_DEFAULT)));
 		cardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
-		JLabel type = new JLabel(c.getType().substring(0,1)+ " ");
+		JLabel type = new JLabel(" "+c.getType().substring(0,1)+ " ");
 		JLabel manaCost = new JLabel(" "+Integer.toString(c.getCost())+" ");
 		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, 20));
 		manaCost.setBackground(Color.white);
@@ -484,6 +492,7 @@ public class gameGUI extends JFrame {
 		topP.add(manaCost);
 		
 		cardP.setSize(CARD_DIM);
+		cardP.setBorder(BorderFactory.createLineBorder(Color.black));
 		textP.setMaximumSize(CARD_DIM);
 		textP.setPreferredSize(CARD_DIM);
 		cardP.add(topP);

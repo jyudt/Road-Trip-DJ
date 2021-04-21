@@ -29,7 +29,7 @@ public class Ride {
 		this.RIDE_DURATION = turns;
 		this.remainingTurns = turns;
 		for(int i=0;i<riders;i++) {
-			this.riders.add(new Rider());
+			this.riders.add(new Rider(0));
 		}
 	}
 	

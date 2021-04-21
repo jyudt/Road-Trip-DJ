@@ -138,7 +138,7 @@ public class Main {
 					if(rng<50) {
 						continue;
 					} else if(rng<65) {
-						myDeck.add(Main.getCard("Back In Black"));
+						myDeck.add(Main.getCard("Back in Black"));
 					} else if(rng<80) {
 						myDeck.add(Main.getCard("Bohemian Rhapsody"));
 					} else if(rng<95) {
@@ -247,6 +247,27 @@ public class Main {
 			}
 			choice+= " and ";
 		}
+		if(nums[0]!=0 && nums[1]!=0) {
+			for(int i=0;i<3;i++)
+				myDeck.add(Main.getCard("Black Hole Sun"));
+		}
+		if(nums[0]!=1 && nums[1]!=1) {
+			for(int i=0;i<3;i++)
+				myDeck.add(Main.getCard("Lean On"));
+		}
+		if(nums[0]!=2 && nums[1]!=2) {
+			for(int i=0;i<3;i++)
+				myDeck.add(Main.getCard("Fight The Power"));
+		}
+		if(nums[0]!=3 && nums[1]!=3) {
+			for(int i=0;i<3;i++)
+				myDeck.add(Main.getCard("Thriller"));
+		}
+		if(nums[0]!=4 && nums[1]!=4) {
+			for(int i=0;i<3;i++)
+				myDeck.add(Main.getCard("Für Elise"));
+		}
+		
 		choice = choice.substring(0,choice.length()-4);
 		System.out.println(choice);
 		return myDeck;
