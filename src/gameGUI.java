@@ -274,7 +274,11 @@ public class gameGUI extends JFrame {
 		riderP.setBackground(Color.decode("#c4c4c4"));
 		
 		setVisible(true);
-		setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		if(width==1920) {
+			setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+		}
 
 	}
 	
