@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,6 +30,10 @@ public class gameGUI extends JFrame {
 	private final Dimension BTN_SIZE_DIM = new Dimension(200, 90); 
 	private final Dimension RIDER_SIZE_DIM = new Dimension(300, 600); 
 	private final Dimension HEALTH_SIZE_DIM = new Dimension(300, 30); 
+	private final Dimension DECK_IMG_SIZE_DIM = new Dimension(90, 90); 
+	private final Dimension TIME_IMG_SIZE_DIM = new Dimension(90, 90); 
+	private final Dimension RIDER_IMG_SIZE_DIM = new Dimension(180, 380); 
+	private final Dimension CARD_IMG_SIZE_DIM = new Dimension(150, 120); 
 
 
 	
@@ -62,15 +67,31 @@ public class gameGUI extends JFrame {
 	
 	private Ride ride;
 	
+	private double scale;
+	
 	public gameGUI(Ride r) {
 		super("Road Trip DJ");
 		ride = r;
 		riders=r.getRiders();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1920,1080); 
+		scale = 1/Main.getScalingFactor();
+		setSize((int)(1920/scale),(int)(1080/scale));
 		setResizable(false);
 		
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		
+		scaleDim(CARD_DIM, scale);
+		scaleDim(CARD_TEXT_DIM, scale);
+		scaleDim(TIMER_SIZE_DIM, scale);
+		scaleDim(RIDERS_SIZE_DIM, scale);
+		scaleDim(MANA_SIZE_DIM, scale);
+		scaleDim(BTN_SIZE_DIM, scale);
+		scaleDim(RIDER_SIZE_DIM, scale);
+		scaleDim(HEALTH_SIZE_DIM, scale);		
+		scaleDim(DECK_IMG_SIZE_DIM, scale);		
+		scaleDim(TIME_IMG_SIZE_DIM, scale);		
+		scaleDim(RIDER_IMG_SIZE_DIM, scale);		
+		scaleDim(CARD_IMG_SIZE_DIM, scale);		
 				
 		hand = new JPanel();
 		hand.setLayout(new BoxLayout(hand, BoxLayout.X_AXIS));
@@ -147,33 +168,33 @@ public class gameGUI extends JFrame {
 			System.out.println("Error: can't find rewind image");
 		}
 		
-		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
+		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		deckImage.setAlignmentX(CENTER_ALIGNMENT);
-		JLabel discardImage = new JLabel(new ImageIcon(discardImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
+		JLabel discardImage = new JLabel(new ImageIcon(discardImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		discardImage.setAlignmentX(CENTER_ALIGNMENT);
-		JLabel exhaustImage = new JLabel(new ImageIcon(exhaustImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
+		JLabel exhaustImage = new JLabel(new ImageIcon(exhaustImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		exhaustImage.setAlignmentX(CENTER_ALIGNMENT);
-		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(80, 90, Image.SCALE_FAST)));
+		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		timeImage.setAlignmentX(CENTER_ALIGNMENT);
-		dupeImg = new JLabel(new ImageIcon(dupeImageFile.getScaledInstance(90, 90, Image.SCALE_FAST)));
+		dupeImg = new JLabel(new ImageIcon(dupeImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		dupeImg.setAlignmentX(CENTER_ALIGNMENT);
-		refundImg = new JLabel(new ImageIcon(refundImageFile.getScaledInstance(80, 90, Image.SCALE_FAST)));
+		refundImg = new JLabel(new ImageIcon(refundImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		refundImg.setAlignmentX(CENTER_ALIGNMENT);
 		
 		deckSize = new JLabel("0");
-		deckSize.setFont(new Font(deckSize.getFont().getName(), Font.BOLD, 30));
+		deckSize.setFont(new Font(deckSize.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		discardSize = new JLabel("0");
-		discardSize.setFont(new Font(discardSize.getFont().getName(), Font.BOLD, 30));
+		discardSize.setFont(new Font(discardSize.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		exhaustSize = new JLabel("0");
-		exhaustSize.setFont(new Font(exhaustSize.getFont().getName(), Font.BOLD, 30));
+		exhaustSize.setFont(new Font(exhaustSize.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		timer = new JLabel("0");
-		timer.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
+		timer.setFont(new Font(timer.getFont().getName(), Font.BOLD, (int) (50*scale)));
 		mana = new JLabel("0");
-		mana.setFont(new Font(timer.getFont().getName(), Font.BOLD, 50));
+		mana.setFont(new Font(timer.getFont().getName(), Font.BOLD, (int) (50*scale)));
 		dupeL = new JLabel("0");
-		dupeL.setFont(new Font(dupeL.getFont().getName(), Font.BOLD, 30));
+		dupeL.setFont(new Font(dupeL.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		refundL = new JLabel("0");
-		refundL.setFont(new Font(refundL.getFont().getName(), Font.BOLD, 30));
+		refundL.setFont(new Font(refundL.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		
 		endTurn = new JButton("End Turn");
 		endTurn.addActionListener(new ActionListener(){
@@ -185,27 +206,27 @@ public class gameGUI extends JFrame {
 		endTurn.setMaximumSize(BTN_SIZE_DIM);
 		endTurn.setPreferredSize(BTN_SIZE_DIM);
 		
-		timerP.add(Box.createHorizontalStrut(100));
+		timerP.add(Box.createHorizontalStrut((int) (100/scale)));
 		timerP.add(deckImage);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut((int) (30/scale)));
 		timerP.add(deckSize);
-		timerP.add(Box.createHorizontalStrut(50));
+		timerP.add(Box.createHorizontalStrut((int) (50/scale)));
 		timerP.add(dupeImg);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut((int) (30/scale)));
 		timerP.add(dupeL);
 		timerP.add(Box.createHorizontalGlue());
 		timerP.add(timer);
 		timerP.add(Box.createHorizontalGlue());
 		timerP.add(refundImg);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut((int) (30/scale)));
 		timerP.add(refundL);
-		timerP.add(Box.createHorizontalStrut(50));
+		timerP.add(Box.createHorizontalStrut((int) (50/scale)));
 		timerP.add(discardImage);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut((int) (30/scale)));
 		timerP.add(discardSize);
-		timerP.add(Box.createHorizontalStrut(50));
+		timerP.add(Box.createHorizontalStrut((int) (50/scale)));
 		timerP.add(exhaustImage);
-		timerP.add(Box.createHorizontalStrut(30));
+		timerP.add(Box.createHorizontalStrut((int) (30/scale)));
 		timerP.add(exhaustSize);
 
 		refundL.setVisible(false);
@@ -227,14 +248,14 @@ public class gameGUI extends JFrame {
 		manaP.setPreferredSize(MANA_SIZE_DIM);
 		
 		manaP.add(timeImage);
-		manaP.add(Box.createHorizontalStrut(10));
+		manaP.add(Box.createHorizontalStrut((int) (10/scale)));
 		manaP.add(mana);
 		manaP.add(Box.createHorizontalGlue());
 		manaP.add(endTurn);
 		
-		add(Box.createVerticalStrut(10));
+		add(Box.createVerticalStrut((int) (10/scale)));
 		add(timerP);
-		add(Box.createVerticalStrut(5));
+		add(Box.createVerticalStrut((int) (5/scale)));
 		add(riderP);
 		add(Box.createVerticalGlue());
 		add(manaP);
@@ -251,6 +272,7 @@ public class gameGUI extends JFrame {
 		riderP.setBackground(Color.decode("#c4c4c4"));
 		
 		setVisible(true);
+		setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
 
 	}
 	
@@ -308,7 +330,7 @@ public class gameGUI extends JFrame {
 			rdr.setMaximumSize(RIDER_SIZE_DIM);
 			riderP.add(rdr);
 			if(i<riders.size())
-				riderP.add(Box.createHorizontalStrut(10));
+				riderP.add(Box.createHorizontalStrut((int) (10/scale)));
 		}
 		riderP.add(Box.createHorizontalGlue());
 		riderP.updateUI();
@@ -333,12 +355,12 @@ public class gameGUI extends JFrame {
 		rider.setMaximumSize(RIDER_SIZE_DIM);
 		rider.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JLabel riderImage = new JLabel(new ImageIcon(myImage.getScaledInstance(180, 380, Image.SCALE_DEFAULT)));
+		JLabel riderImage = new JLabel(new ImageIcon(myImage.getScaledInstance(RIDER_IMG_SIZE_DIM.width, RIDER_IMG_SIZE_DIM.height, Image.SCALE_DEFAULT)));
 		riderImage.setAlignmentX(CENTER_ALIGNMENT);
 		
 		JLabel name = new JLabel(r.getName());
 		name.setAlignmentX(CENTER_ALIGNMENT);
-		name.setFont(new Font(name.getFont().getName(), Font.PLAIN, 20));
+		name.setFont(new Font(name.getFont().getName(), Font.PLAIN, (int) (20*scale)));
 
 		
 		JPanel healthP = new JPanel();
@@ -351,11 +373,11 @@ public class gameGUI extends JFrame {
 		
 		JLabel healthLab = new JLabel("H: "+Integer.toString(happiness));
 		
-		healthP.add(Box.createHorizontalStrut(20));
+		healthP.add(Box.createHorizontalStrut((int) (20/scale)));
 		healthP.add(healthBar);
-		healthP.add(Box.createHorizontalStrut(5));
+		healthP.add(Box.createHorizontalStrut((int) (5/scale)));
 		healthP.add(healthLab);
-		healthP.add(Box.createHorizontalStrut(10));
+		healthP.add(Box.createHorizontalStrut((int) (10/scale)));
 		
 		JPanel likesP = new JPanel();
 		likesP.setLayout(new BoxLayout(likesP, BoxLayout.X_AXIS));
@@ -363,33 +385,33 @@ public class gameGUI extends JFrame {
 		likesP.setMaximumSize(HEALTH_SIZE_DIM);
 		
 		JLabel likes = new JLabel(r.getLikesString().substring(0,1));
-		likes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 30));
+		likes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (30*scale)));
 		likes.setForeground(Color.green.darker());
 		likesP.add(Box.createHorizontalGlue());
 		likesP.add(likes);
 		
 		if(r.getDislikes()!=null) {
 			JLabel dislikes = new JLabel(r.getDislikesString().substring(0,1));
-			dislikes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 30));
+			dislikes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (30*scale)));
 			dislikes.setForeground(Color.red);
-			likesP.add(Box.createHorizontalStrut(10));
+			likesP.add(Box.createHorizontalStrut((int) (10/scale)));
 			likesP.add(dislikes);
 		}
 		
 		for(String s:r.getTraits()) {
 			JLabel tr = new JLabel(s);
-			tr.setFont(new Font(likes.getFont().getName(), Font.PLAIN, 25));
-			likesP.add(Box.createHorizontalStrut(10));
+			tr.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (25*scale)));
+			likesP.add(Box.createHorizontalStrut((int) (10/scale)));
 			likesP.add(tr);
 		}
 		likesP.add(Box.createHorizontalGlue());
 		
 		rider.add(name);
-		rider.add(Box.createVerticalStrut(5));
+		rider.add(Box.createVerticalStrut((int) (5/scale)));
 		rider.add(riderImage);
-		rider.add(Box.createVerticalStrut(5));
+		rider.add(Box.createVerticalStrut((int) (5/scale)));
 		rider.add(healthP);
-		rider.add(Box.createVerticalStrut(5));
+		rider.add(Box.createVerticalStrut((int) (5/scale)));
 		rider.add(likesP);
 		
 		rider.setOpaque(false);
@@ -405,7 +427,7 @@ public class gameGUI extends JFrame {
 			card.setMaximumSize(CARD_DIM);
 			hand.add(card);
 			if(i<handList.size()-1)
-				hand.add(Box.createHorizontalStrut(10));
+				hand.add(Box.createHorizontalStrut((int) (10/scale)));
 		}
 		hand.add(Box.createHorizontalGlue());
 		hand.updateUI();
@@ -454,18 +476,18 @@ public class gameGUI extends JFrame {
 		
 		JPanel cardP = new JPanel();
 		cardP.setLayout(new BoxLayout(cardP, BoxLayout.Y_AXIS));
-		cardP.setBorder(new EmptyBorder(10, 10, 10, 10));
+		cardP.setBorder(new EmptyBorder((int) (10/scale), (int) (10/scale), (int) (10/scale), (int) (10/scale)));
 		JPanel topP = new JPanel();
 		topP.setLayout(new BoxLayout(topP, BoxLayout.X_AXIS));
 		JLabel title = new JLabel(c.getName());
 		title.setAlignmentX(CENTER_ALIGNMENT);
-		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 18));
-		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(150, 120, Image.SCALE_DEFAULT)));
+		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, (int) (18*scale)));
+		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(CARD_IMG_SIZE_DIM.width,CARD_IMG_SIZE_DIM.height, Image.SCALE_DEFAULT)));
 		cardImage.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
 		JLabel type = new JLabel(" "+c.getType().substring(0,1)+ " ");
 		JLabel manaCost = new JLabel(" "+Integer.toString(c.getCost())+" ");
-		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, 20));
+		manaCost.setFont(new Font(manaCost.getFont().getName(), Font.PLAIN, (int) (20*scale)));
 		manaCost.setBackground(Color.white);
 		manaCost.setOpaque(true);
 
@@ -481,7 +503,7 @@ public class gameGUI extends JFrame {
 		text.setOpaque(false);
 		text.setEditable(false);
 		text.setFocusable(false);
-		text.setFont(new Font(text.getFont().getName(), Font.PLAIN, 17));
+		text.setFont(new Font(text.getFont().getName(), Font.PLAIN, (int) (17*scale)));
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		textP.add(text);
 		
@@ -496,12 +518,11 @@ public class gameGUI extends JFrame {
 		textP.setMaximumSize(CARD_DIM);
 		textP.setPreferredSize(CARD_DIM);
 		cardP.add(topP);
-		cardP.add(Box.createVerticalStrut(10));
+		cardP.add(Box.createVerticalStrut((int) (10/scale)));
 		cardP.add(cardImage);
 		cardP.add(Box.createVerticalGlue());
 		cardP.add(textP);
 		cardP.add(Box.createVerticalGlue());
-		//cardP.setBorder(BorderFactory.createLineBorder(Color.black));
 		Color labelC = null;
 		switch(c.getType()) {
 		case("Rock"):
@@ -555,5 +576,12 @@ public class gameGUI extends JFrame {
 		dispose();
 		return 0;
 	}
+	
+	private Dimension scaleDim(Dimension d, double s) {
+		d.setSize(d.getWidth()*s,d.getHeight()*s);
+		return d;
+	}
+	
+	
 
 }

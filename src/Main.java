@@ -1,10 +1,13 @@
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class Main {
 	static ArrayList<Card> allCards;
 	static ArrayList<Card> normCards;
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
 		ArrayList<Card> mainDeck = new ArrayList<Card>();
 		initializeCards();
 		//don't do this for the real game
@@ -271,5 +274,16 @@ public class Main {
 		choice = choice.substring(0,choice.length()-4);
 		System.out.println(choice);
 		return myDeck;
+	}
+	
+	public static double getScalingFactor() {
+		GraphicsConfiguration g = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		AffineTransform trf = g.getDefaultTransform();
+		double x = (trf.getScaleX());
+		double y = (trf.getScaleY());
+		if(x==y) {
+			return x;
+		}
+		return 1;
 	}
 }
