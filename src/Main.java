@@ -12,15 +12,12 @@ public class Main {
 		initializeCards();
 		//don't do this for the real game
 		//deck of every card
-		/**
 		for(Card c:normCards) {
-			//if(c.getType().equals("Classical"))
-				mainDeck.add((Card)c.clone());
+			mainDeck.add((Card)c.clone());
 		}
-		
-		*/
-		mainDeck = buildDefaultDeck();
-		Ride ride = new Ride(allCards, mainDeck,10, 3);
+				
+		//mainDeck = buildDefaultDeck();
+		Ride ride = new Ride(allCards, mainDeck,100, 3);
 		ride.beginRide();
 	}
 	
@@ -33,7 +30,7 @@ public class Main {
 		normCards.add(new Rock("Back in Black",1));
 		normCards.add(new Rock("Bohemian Rhapsody",2));
 		normCards.add(new Rock("We Will Rock You",1));
-		normCards.add(new Rock("Livin\' On A Prayer",1));
+		normCards.add(new Rock("Living On A Prayer",1));
 		
 		//electronic
 		normCards.add(new Electronic("Lean On",1));
@@ -83,7 +80,7 @@ public class Main {
 		allCards.add(new Electronic("Get Lucky",1));
 		
 		//hiphop-gen
-		allCards.add(new HipHop("Nothin\' But A G Thang",0));
+		allCards.add(new HipHop("Nothin' But A G Thang",0));
 		
 		//pop-gen
 		allCards.add(new Pop("Everybody",1));
@@ -145,7 +142,7 @@ public class Main {
 					} else if(rng<80) {
 						myDeck.add(Main.getCard("Bohemian Rhapsody"));
 					} else if(rng<95) {
-						myDeck.add(Main.getCard("Livin' On A Prayer"));
+						myDeck.add(Main.getCard("Living On A Prayer"));
 					} else {
 						myDeck.add(Main.getCard("We Will Rock You"));
 					}

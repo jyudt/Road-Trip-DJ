@@ -40,7 +40,7 @@ public class Ride {
 		
 		for(;remainingTurns>0;remainingTurns--) {
 			playerTurn();
-			riderTurn();
+			//riderTurn();
 			checkForLoss();
 		}
 		updateGui();
@@ -180,7 +180,8 @@ public class Ride {
 			System.out.println("Your hand is full.  Discarding "+ toDraw.getName()+ ".");
 			discard.add(toDraw);
 		}
-		updateGui();
+		gui.passHand(hand);
+		//using updateGui can spam flash the whole screen
 	}
 	
 	public void discardHand() {

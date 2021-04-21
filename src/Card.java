@@ -47,7 +47,7 @@ public abstract class Card {
 		case("We Will Rock You"):
 			r.addToHand(Main.getCard("We Are The Champions"));
 			return;
-		case("Livin\' On A Prayer"):
+		case("Living On A Prayer"):
 			if(r.RIDE_DURATION/2>=r.remainingTurns)
 				r.playTwice+=2;
 			return;
@@ -90,7 +90,7 @@ public abstract class Card {
 			r.drawCard(2);
 			return;
 		case("Still D.R.E."):
-			r.addToHand(Main.getCard("Nothin\' But A G Thang"));
+			r.addToHand(Main.getCard("Nothin' But A G Thang"));
 			return;
 		case("Gangsta's Paradise"):
 			while(r.hand.size()<r.MAX_HAND_SIZE && r.discard.size()>0) {
@@ -165,7 +165,7 @@ public abstract class Card {
 			return;
 
 		//hiphop-gen
-		case("Nothin\' But A G Thang"):
+		case("Nothin' But A G Thang"):
 			r.drawCard(2);
 			r.discardCard(-1);
 			return;
@@ -234,7 +234,7 @@ public abstract class Card {
 			return "The next card you play this turn is played twice.";
 		case("We Will Rock You"):
 			return "Add a \"We Are the Champions\" to your hand.  Exhaust.";
-		case("Livin\' On A Prayer"):
+		case("Living On A Prayer"):
 			return "If your trip is halfway over, the next two cards you play this turn are played twice.";
 		
 		//electronic
@@ -310,7 +310,7 @@ public abstract class Card {
 			return "Add a random card to your hand.  It costs 0.  Exhaust.";
 					
 		//hiphop-gen
-		case("Nothin\' But A G Thang"):
+		case("Nothin' But A G Thang"):
 			return "Draw 2 cards, then discard a random card.  Exhaust.";
 		
 		//pop-gen
@@ -352,7 +352,7 @@ public abstract class Card {
 		case("Autumn"):
 		case("Winter"):
 		case("Gangsta's Paradise"):
-		case("Nothin\' But A G Thang"):
+		case("Nothin' But A G Thang"):
 		case("Digital Love"):
 		case("One More Time"):
 		case("Get Lucky"):

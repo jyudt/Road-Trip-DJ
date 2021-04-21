@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -493,6 +495,7 @@ public class gameGUI extends JFrame {
 
 		
 		textP.setMaximumSize(CARD_TEXT_DIM);
+		textP.setLayout(new FlowLayout());
 		textP.setPreferredSize(CARD_TEXT_DIM);
 		textP.setBorder(BorderFactory.createLineBorder(Color.black));
 		textP.setAlignmentX(CENTER_ALIGNMENT);
@@ -503,7 +506,11 @@ public class gameGUI extends JFrame {
 		text.setOpaque(false);
 		text.setEditable(false);
 		text.setFocusable(false);
-		text.setFont(new Font(text.getFont().getName(), Font.PLAIN, (int) (17*scale)));
+		if(c.getText().length()>60) {
+			text.setFont(new Font(text.getFont().getName(), Font.PLAIN, (int) (12*scale)));
+		} else {
+			text.setFont(new Font(text.getFont().getName(), Font.PLAIN, (int) (17*scale)));
+		}
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		textP.add(text);
 		
@@ -581,7 +588,6 @@ public class gameGUI extends JFrame {
 		d.setSize(d.getWidth()*s,d.getHeight()*s);
 		return d;
 	}
-	
 	
 
 }
