@@ -69,7 +69,7 @@ public class Rider {
 		return happiness;
 	}
 	
-	public Object getLikes() {
+	public Card getLikes() {
 		return likes;
 	}
 	
@@ -77,7 +77,7 @@ public class Rider {
 		return likes.getClass().toString().substring(6);
 	}
 	
-	public Object getDislikes() {
+	public Card getDislikes() {
 		if(dislikes==null)
 			return null;
 		return dislikes;
@@ -89,7 +89,16 @@ public class Rider {
 		return dislikes.getClass().toString().substring(6);
 	}
 	
-	private void gainHappiness(int n) {
+	public boolean hasTrait(String s) {
+		for(String t:traits) {
+			if(t.equals(s))
+				return true;
+		}
+		return false;
+	}
+	
+	private void gainHappiness(int n,double multi) {
+		n*=multi;
 		int determ = happiness+n;
 		if(determ<=100) {
 			happiness=determ;
@@ -119,8 +128,42 @@ public class Rider {
 		if(dislikes!=null && c.getClass().equals(dislikes.getClass())) {
 			happinessIncrease = -10;
 		}
+		double multi = 1;
+		if(hasTrait("Chill")) {
+			if(happinessIncrease>0) {
+				multi +=.2;
+			} else {
+				multi-=.2;
+			}
+		} 
+		if(hasTrait("Picky")) {
+			if(happinessIncrease<0) {
+				multi+=.2;
+			}
+		}
+		if(hasTrait("Flexible")) {
+			if(happinessIncrease<0) {
+				multi-=.2;
+			}
+		}
+		if(hasTrait("Impatient")) {
+			if(!(lastHeard!=null&&lastHeard.getType().equals(likes.getType()))) {
+				if(happinessIncrease>0) {
+					multi-=.4;
+				} else {
+					multi+=4;
+				}
+			}
+		}
 		
-		gainHappiness(happinessIncrease);
+		
+		if(hasTrait("Sleepy")) {
+			if((int)(Math.random()*4)==0) {
+				multi = 0;
+			}
+		}
+		
+		gainHappiness(happinessIncrease,multi);
 	}
 	
 	public void takeTurn() {
@@ -131,7 +174,41 @@ public class Rider {
 		if(lastHeard!=null && dislikes!=null && lastHeard.getClass().equals(dislikes.getClass())) {
 			happinessIncrease = -50;
 		}
-		gainHappiness(happinessIncrease);
+		
+		double multi = 1;
+		if(hasTrait("Chill")) {
+			if(happinessIncrease>0) {
+				multi +=.2;
+			} else {
+				multi-=.2;
+			}
+		} 
+		if(hasTrait("Picky")) {
+			if(happinessIncrease<0) {
+				multi+=.2;
+			}
+		}
+		if(hasTrait("Flexible")) {
+			if(happinessIncrease<0) {
+				multi-=.2;
+			}
+		}
+		if(hasTrait("Impatient")) {
+			if(!(lastHeard!=null&&lastHeard.getType().equals(likes.getType()))) {
+				if(happinessIncrease>0) {
+					multi-=.4;
+				} else {
+					multi+=.4;
+				}
+			}
+		}
+		
+		if(hasTrait("Sleepy")) {
+			if((int)(Math.random()*4)==0) {
+				multi = 0;
+			}
+		}
+		gainHappiness(happinessIncrease,multi);
 		lastHeard = null;
 	}
 	
@@ -140,8 +217,25 @@ public class Rider {
 		traitList.add("Picky");
 		traitList.add("Flexible");
 		traitList.add("Impatient");
-		traitList.add("Fickle");
+		//traitList.add("Fickle");
 		traitList.add("Sleepy");
+	}
+	
+	public static String getTraitDesc(String t) {
+		switch(t) {
+		case("Chill"):
+			return "Gains more and loses less happiness.";
+		case("Picky"):
+			return "Loses more happiness.";
+		case("Flexible"):
+			return "Loses less happiness.";
+		case("Impatient"):
+			return "Gains less and loses more happiness if they don't hear their liked music.";
+		case("Sleepy"):
+			return "Sometimes ignores played songs";
+		
+		}
+		return "";
 	}
 	
 	private String pickName() {

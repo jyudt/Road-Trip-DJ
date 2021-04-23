@@ -29,7 +29,7 @@ public class Ride {
 		this.RIDE_DURATION = turns;
 		this.remainingTurns = turns;
 		for(int i=0;i<riders;i++) {
-			this.riders.add(new Rider(0));
+			this.riders.add(new Rider(1));
 		}
 	}
 	
@@ -40,7 +40,8 @@ public class Ride {
 		
 		for(;remainingTurns>0;remainingTurns--) {
 			playerTurn();
-			//riderTurn();
+			gui.setLastPlayed(null);
+			riderTurn();
 			checkForLoss();
 		}
 		updateGui();
@@ -77,12 +78,6 @@ public class Ride {
 			for(int i=0;i<hand.size();i++) {
 				System.out.println(i+ " "+hand.get(i));
 			}
-			/**
-			while(input<-1 || input>hand.size()-1) {
-				System.out.println("Pick a card to play (0-"+(hand.size()-1)+", or -1 to end turn)");
-				input = Integer.parseInt(inpScan.nextLine());
-			}
-			*/
 			while(input<-1 || input>hand.size()-1) {
 				try {
 					Thread.sleep(200);
@@ -135,6 +130,7 @@ public class Ride {
 			} else {
 				discard.add(played);
 			}
+			gui.setLastPlayed(played);
 			updateGui();
 		}
 		

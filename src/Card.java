@@ -18,12 +18,13 @@ public abstract class Card {
 		outs.add(this.getClass().getName());
 		outs.add(name);
 		outs.add(cost);
+		outs.add(getText());
 		
 		String outStr = "";
 		for(Object o:outs) {
-			outStr+=o + " ";
+			outStr+=o + " || ";
 		}
-		return outStr;
+		return outStr.substring(0,outStr.length()-3);
 	}
 	
 	public void playCard(Ride r) {
@@ -366,6 +367,38 @@ public abstract class Card {
 		}
 		
 		return false;
+	}
+	
+	public String getTooltip() {
+		String tt = "";
+		switch(name) {
+		case("We Will Rock You"):
+			return Main.getCard("We Are The Champions").toString();
+		case("Don't Stop Believing"):
+			return Main.getCard("Any Way You Want It").toString();
+		case("Digital Love"):
+			return Main.getCard("One More Time").toString();
+		case("Around The World"):
+			return Main.getCard("Get Lucky").toString();
+		case("Still D.R.E."):
+			return Main.getCard("Nothin' But A G Thang").toString();
+		case("I Want It That Way"):
+			return "<html>"+Main.getCard("Everybody").toString()+"<br>"+Main.getCard("No Place").toString()+"</html>";
+		case("Hollaback Girl"):
+			return Main.getCard("Don't Speak").toString();
+		case("Uptown Funk"):
+			return Main.getCard("Locked Out of Heaven").toString();
+		case("The Four Seasons"):
+			tt+="<html>";
+			tt+=Main.getCard("Spring").toString()+"<br>";
+			tt+=Main.getCard("Summer").toString()+"<br>";
+			tt+=Main.getCard("Autumn").toString()+"<br>";
+			tt+=Main.getCard("Winter").toString()+"</hmtl>";
+			return tt;
+		
+		}
+		
+		return "";
 	}
 	
 	public String getType() {

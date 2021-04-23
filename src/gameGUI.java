@@ -36,8 +36,12 @@ public class gameGUI extends JFrame {
 	private final Dimension TIME_IMG_SIZE_DIM = new Dimension(90, 90); 
 	private final Dimension RIDER_IMG_SIZE_DIM = new Dimension(180, 380); 
 	private final Dimension CARD_IMG_SIZE_DIM = new Dimension(150, 120); 
-
-
+	
+	private final Color rockClr = (Color.decode("#e05f5f"));
+	private final Color popClr = (Color.decode("#b6b9f7"));
+	private final Color ElectronicClr = (Color.decode("#baf4a8"));
+	private final Color hipHopClr = (Color.decode("#eefb8e"));
+	private final Color ClassicalClr = (Color.decode("#a8ebf4"));
 	
 	private ArrayList<Rider> riders = new ArrayList<Rider>();
 	
@@ -66,6 +70,7 @@ public class gameGUI extends JFrame {
 	private JPanel manaP;
 	private JLabel mana;
 	private JButton endTurn;
+	private JLabel lastPlayed;
 	
 	private Ride ride;
 	
@@ -172,17 +177,22 @@ public class gameGUI extends JFrame {
 		
 		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		deckImage.setAlignmentX(CENTER_ALIGNMENT);
+		deckImage.setToolTipText("Deck Size");
 		JLabel discardImage = new JLabel(new ImageIcon(discardImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		discardImage.setAlignmentX(CENTER_ALIGNMENT);
+		discardImage.setToolTipText("Discard Size");
 		JLabel exhaustImage = new JLabel(new ImageIcon(exhaustImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		exhaustImage.setAlignmentX(CENTER_ALIGNMENT);
+		exhaustImage.setToolTipText("Exhaust Size");
 		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		timeImage.setAlignmentX(CENTER_ALIGNMENT);
 		dupeImg = new JLabel(new ImageIcon(dupeImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		dupeImg.setAlignmentX(CENTER_ALIGNMENT);
+		dupeImg.setToolTipText("Copies Remaining");
 		refundImg = new JLabel(new ImageIcon(refundImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
 		refundImg.setAlignmentX(CENTER_ALIGNMENT);
-		
+		refundImg.setToolTipText("Refunds Remaining");
+
 		deckSize = new JLabel("0");
 		deckSize.setFont(new Font(deckSize.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		discardSize = new JLabel("0");
@@ -197,6 +207,13 @@ public class gameGUI extends JFrame {
 		dupeL.setFont(new Font(dupeL.getFont().getName(), Font.BOLD, (int) (30*scale)));
 		refundL = new JLabel("0");
 		refundL.setFont(new Font(refundL.getFont().getName(), Font.BOLD, (int) (30*scale)));
+		
+		lastPlayed = new JLabel ("Last Played: None");
+		lastPlayed.setFont(new Font(lastPlayed.getFont().getName(), Font.BOLD, (int) (30*scale)));
+		lastPlayed.setBackground(Color.white);
+		lastPlayed.setOpaque(true);
+		lastPlayed.setBorder(new EmptyBorder(10,10,10,10));
+
 		
 		endTurn = new JButton("End Turn");
 		endTurn.addActionListener(new ActionListener(){
@@ -253,6 +270,8 @@ public class gameGUI extends JFrame {
 		manaP.add(Box.createHorizontalStrut((int) (10/scale)));
 		manaP.add(mana);
 		manaP.add(Box.createHorizontalGlue());
+		manaP.add(lastPlayed);
+		manaP.add(Box.createHorizontalGlue());
 		manaP.add(endTurn);
 		
 		add(Box.createVerticalStrut((int) (10/scale)));
@@ -301,19 +320,21 @@ public class gameGUI extends JFrame {
 	}
 	public void updateBuffs() {
 		int ref = ride.refund;
+		refundL.setText(Integer.toString(ref));
 		if(ref!=0) {
-			refundL.setText(Integer.toString(ref));
 			enableRefund();
 		}
 		int dup = ride.playTwice;
+		dupeL.setText(Integer.toString(dup));
 		if(dup!=0) {
-			dupeL.setText(Integer.toString(dup));
 			enableDupe();
 		}
 		if(ride.refundRegen>0)
 			enableRefund();
 		if(ride.playTwiceRegen>0)
 			enableDupe();
+		refundL.updateUI();
+		dupeL.updateUI();
 	}
 	private void enableRefund() {
 		if(refundL.isVisible()&&refundImg.isVisible())
@@ -340,8 +361,21 @@ public class gameGUI extends JFrame {
 		}
 		riderP.add(Box.createHorizontalGlue());
 		riderP.updateUI();
+	}
+	
+	public void setLastPlayed(Card c) {
+		String type;
+		Color clr = null;
+		if(c==null) {
+			type="None";
+		} else {
+			type = c.getType();
+			clr = getColor(c);
+		}
 		
-		
+		lastPlayed.setText("Last Played: "+type);
+		lastPlayed.setBackground(clr);
+		lastPlayed.updateUI();
 	}
 	
 	private JPanel drawRider(Rider r) {
@@ -389,27 +423,37 @@ public class gameGUI extends JFrame {
 		likesP.setLayout(new BoxLayout(likesP, BoxLayout.X_AXIS));
 		likesP.setPreferredSize(HEALTH_SIZE_DIM);
 		likesP.setMaximumSize(HEALTH_SIZE_DIM);
+
 		
-		JLabel likes = new JLabel(r.getLikesString().substring(0,1));
+		JLabel likes = new JLabel(" "+r.getLikesString().substring(0,1)+" ");
 		likes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (30*scale)));
-		likes.setForeground(Color.green.darker());
+		likes.setBackground(getColor(r.getLikes()));
+		likes.setOpaque(true);
+		likes.setToolTipText("Likes: "+r.getLikesString());
 		likesP.add(Box.createHorizontalGlue());
 		likesP.add(likes);
+		likesP.add(Box.createHorizontalGlue());
+		
+		for(String s:r.getTraits()) {
+			JLabel tr = new JLabel(s);
+			tr.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (25*scale)));
+			tr.setOpaque(true);
+			tr.setToolTipText(Rider.getTraitDesc(s));
+			likesP.add(Box.createHorizontalStrut((int) (10/scale)));
+			likesP.add(tr);
+		}
+		likesP.add(Box.createHorizontalGlue());
+
 		
 		if(r.getDislikes()!=null) {
 			JLabel dislikes = new JLabel(r.getDislikesString().substring(0,1));
 			dislikes.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (30*scale)));
 			dislikes.setForeground(Color.red);
+			dislikes.setToolTipText("Dislikes: "+r.getDislikesString());
 			likesP.add(Box.createHorizontalStrut((int) (10/scale)));
 			likesP.add(dislikes);
 		}
 		
-		for(String s:r.getTraits()) {
-			JLabel tr = new JLabel(s);
-			tr.setFont(new Font(likes.getFont().getName(), Font.PLAIN, (int) (25*scale)));
-			likesP.add(Box.createHorizontalStrut((int) (10/scale)));
-			likesP.add(tr);
-		}
 		likesP.add(Box.createHorizontalGlue());
 		
 		rider.add(name);
@@ -534,24 +578,7 @@ public class gameGUI extends JFrame {
 		cardP.add(Box.createVerticalGlue());
 		cardP.add(textP);
 		cardP.add(Box.createVerticalGlue());
-		Color labelC = null;
-		switch(c.getType()) {
-		case("Rock"):
-			labelC = (Color.decode("#e05f5f"));
-			break;
-		case("Pop"):
-			labelC = (Color.decode("#b6b9f7"));
-			break;
-		case("Electronic"):
-			labelC = (Color.decode("#baf4a8"));
-			break;
-		case("HipHop"):
-			labelC = (Color.decode("#eefb8e"));
-			break;
-		case("Classical"):
-			labelC = (Color.decode("#a8ebf4"));
-			break;
-		}
+		Color labelC = getColor(c);
 		cardP.setBackground(labelC);
 		topP.setBackground(labelC);
 		
@@ -562,6 +589,10 @@ public class gameGUI extends JFrame {
 				sendInput(index);
 			}
 		});
+		
+		cardP.setToolTipText(c.getTooltip());
+		text.setToolTipText(c.getTooltip());
+
 		
 		return cardP;
 	}
@@ -591,6 +622,28 @@ public class gameGUI extends JFrame {
 	private Dimension scaleDim(Dimension d, double s) {
 		d.setSize(d.getWidth()*s,d.getHeight()*s);
 		return d;
+	}
+	
+	private Color getColor(Card c) {
+		Color labelC = null;
+		switch(c.getType()) {
+		case("Rock"):
+			labelC = rockClr;
+			break;
+		case("Pop"):
+			labelC = popClr;
+			break;
+		case("Electronic"):
+			labelC = ElectronicClr;
+			break;
+		case("HipHop"):
+			labelC = hipHopClr;
+			break;
+		case("Classical"):
+			labelC = ClassicalClr;
+			break;
+		}
+		return labelC;
 	}
 	
 
