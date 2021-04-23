@@ -12,12 +12,14 @@ public class Main {
 		initializeCards();
 		//don't do this for the real game
 		//deck of every card
+		/**
 		for(Card c:normCards) {
 			mainDeck.add((Card)c.clone());
 		}
+		*/
 				
-		//mainDeck = buildDefaultDeck();
-		Ride ride = new Ride(allCards, mainDeck,100, 3);
+		mainDeck = buildDefaultDeck();
+		Ride ride = new Ride(allCards, mainDeck,20, 3);
 		ride.beginRide();
 	}
 	
