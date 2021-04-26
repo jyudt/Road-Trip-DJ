@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.geom.AffineTransform;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,13 +26,16 @@ public class Main {
 		mainFrame = new JFrame("Road Trip DJ");
 		
 		InputStream is = Main.class.getResourceAsStream("img/bensound-downtown.wav");
+		InputStream bis = new BufferedInputStream(is);
 		AudioInputStream audioInputStream = null;
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(is);
+			audioInputStream = AudioSystem.getAudioInputStream(bis);
 		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
+			mainFrame.setTitle("oops1 "+e.toString());
 			e.printStackTrace();
 		} catch (IOException e) {
+			mainFrame.setTitle("oops2 "+e.toString());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -42,6 +46,8 @@ public class Main {
 				clip.open(audioInputStream);
 			} catch (LineUnavailableException | IOException e) {
 				// TODO Auto-generated catch block
+				mainFrame.setTitle("oops3  "+e.toString());
+
 				e.printStackTrace();
 			}
 		}
@@ -50,8 +56,10 @@ public class Main {
 		
 		inp = 0;	
 		TitleScreen ts = new TitleScreen(mainFrame);
-		if(clip!=null)
+		
+		if(clip!=null) {
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
 		while(inp==0) {
 			try {
 				Thread.sleep(200);
