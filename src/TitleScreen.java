@@ -26,7 +26,7 @@ public class TitleScreen {
 	
 	public TitleScreen(JFrame f) {
 		frame = f;
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		scale = 1/Main.getScalingFactor();
 		frame.setSize((int)(1920/scale),(int)(1080/scale));
 		frame.setResizable(false);
@@ -95,6 +95,8 @@ public class TitleScreen {
 		
 		
 		frame.setVisible(true);
+		//if(Main.clip!=null)
+			//Main.clip.start();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		if(width==1920) {

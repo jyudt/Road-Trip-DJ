@@ -2,8 +2,15 @@ import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -16,8 +23,35 @@ public class Main {
 
 	public static void main(String[] args) {	
 		mainFrame = new JFrame("Road Trip DJ");
-		inp = 0;
+		
+		InputStream is = Main.class.getResourceAsStream("img/bensound-downtown.wav");
+		AudioInputStream audioInputStream = null;
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(is);
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Clip clip = null;
+		if(audioInputStream!=null) {
+			try {
+				clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+			} catch (LineUnavailableException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+
+		
+		inp = 0;	
 		TitleScreen ts = new TitleScreen(mainFrame);
+		if(clip!=null)
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		while(inp==0) {
 			try {
 				Thread.sleep(200);
@@ -25,6 +59,7 @@ public class Main {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+
 		}
 		startGame(inp);
 	}
