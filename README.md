@@ -17,5 +17,5 @@ Playing cards will increse the happiness of the riders, modified by any likes, d
  
  
 # Extra Information
-Background music: "Downtown" from www.Bensound.com
+Background music: "Downtown" from www.Bensound.com  
 Album images from respective Wikipedia pages
