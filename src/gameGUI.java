@@ -1,8 +1,9 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.FontMetrics;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-@SuppressWarnings("serial")
-public class gameGUI extends JFrame {
-	JFrame f;
+public class gameGUI{
+	public JFrame f;
 	ArrayList<BufferedImage> cardImages = new ArrayList<BufferedImage>();
 	ArrayList<String> cardImageNames = new ArrayList<String>();
 	private final Dimension CARD_DIM =new Dimension(180,300); 
@@ -77,15 +76,18 @@ public class gameGUI extends JFrame {
 	private double scale;
 	
 	public gameGUI(Ride r) {
-		super("Road Trip DJ");
+		f = Main.getFrame();
+		f.setVisible(false);
+		f.getContentPane().removeAll();
+		f.getContentPane().revalidate();
 		ride = r;
 		riders=r.getRiders();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		scale = 1/Main.getScalingFactor();
-		setSize((int)(1920/scale),(int)(1080/scale));
-		setResizable(false);
+		f.setSize((int)(1920/scale),(int)(1080/scale));
+		f.setResizable(false);
 		
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		f.setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
 		
 		scaleDim(CARD_DIM, scale);
 		scaleDim(CARD_TEXT_DIM, scale);
@@ -102,13 +104,13 @@ public class gameGUI extends JFrame {
 				
 		hand = new JPanel();
 		hand.setLayout(new BoxLayout(hand, BoxLayout.X_AXIS));
-		hand.setAlignmentX(CENTER_ALIGNMENT);
+		hand.setAlignmentX(Component.CENTER_ALIGNMENT);
 		hand.setMaximumSize(HAND_SIZE_DIM);
 		hand.setPreferredSize(HAND_SIZE_DIM);
 		
 		timerP = new JPanel();
 		timerP.setLayout(new BoxLayout(timerP, BoxLayout.X_AXIS));
-		timerP.setAlignmentX(CENTER_ALIGNMENT);
+		timerP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		timerP.setMaximumSize(TIMER_SIZE_DIM);
 		timerP.setPreferredSize(TIMER_SIZE_DIM);
 		
@@ -176,21 +178,21 @@ public class gameGUI extends JFrame {
 		}
 		
 		JLabel deckImage = new JLabel(new ImageIcon(deckImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		deckImage.setAlignmentX(CENTER_ALIGNMENT);
+		deckImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		deckImage.setToolTipText("Deck Size");
 		JLabel discardImage = new JLabel(new ImageIcon(discardImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		discardImage.setAlignmentX(CENTER_ALIGNMENT);
+		discardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		discardImage.setToolTipText("Discard Size");
 		JLabel exhaustImage = new JLabel(new ImageIcon(exhaustImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		exhaustImage.setAlignmentX(CENTER_ALIGNMENT);
+		exhaustImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		exhaustImage.setToolTipText("Exhaust Size");
 		JLabel timeImage = new JLabel(new ImageIcon(timeImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		timeImage.setAlignmentX(CENTER_ALIGNMENT);
+		timeImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		dupeImg = new JLabel(new ImageIcon(dupeImageFile.getScaledInstance(DECK_IMG_SIZE_DIM.width,DECK_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		dupeImg.setAlignmentX(CENTER_ALIGNMENT);
+		dupeImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 		dupeImg.setToolTipText("Copies Remaining");
 		refundImg = new JLabel(new ImageIcon(refundImageFile.getScaledInstance(TIME_IMG_SIZE_DIM.width,TIME_IMG_SIZE_DIM.height, Image.SCALE_FAST)));
-		refundImg.setAlignmentX(CENTER_ALIGNMENT);
+		refundImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 		refundImg.setToolTipText("Refunds Remaining");
 
 		deckSize = new JLabel("0");
@@ -218,7 +220,6 @@ public class gameGUI extends JFrame {
 		endTurn = new JButton("End Turn");
 		endTurn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("button press");
 	            sendInput(-1); 
 			}  
 		});
@@ -256,13 +257,13 @@ public class gameGUI extends JFrame {
 		
 		riderP = new JPanel();
 		riderP.setLayout(new BoxLayout(riderP, BoxLayout.X_AXIS));
-		riderP.setAlignmentX(CENTER_ALIGNMENT);
+		riderP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		riderP.setMaximumSize(RIDERS_SIZE_DIM);
 		riderP.setPreferredSize(RIDERS_SIZE_DIM);
 		
 		manaP = new JPanel();
 		manaP.setLayout(new BoxLayout(manaP, BoxLayout.X_AXIS));
-		manaP.setAlignmentX(CENTER_ALIGNMENT);
+		manaP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		manaP.setMaximumSize(MANA_SIZE_DIM);
 		manaP.setPreferredSize(MANA_SIZE_DIM);
 		
@@ -274,14 +275,14 @@ public class gameGUI extends JFrame {
 		manaP.add(Box.createHorizontalGlue());
 		manaP.add(endTurn);
 		
-		add(Box.createVerticalStrut((int) (10/scale)));
-		add(timerP);
-		add(Box.createVerticalStrut((int) (5/scale)));
-		add(riderP);
-		add(Box.createVerticalGlue());
-		add(manaP);
-		add(Box.createVerticalGlue());
-		add(hand);
+		f.add(Box.createVerticalStrut((int) (10/scale)));
+		f.add(timerP);
+		f.add(Box.createVerticalStrut((int) (5/scale)));
+		f.add(riderP);
+		f.add(Box.createVerticalGlue());
+		f.add(manaP);
+		f.add(Box.createVerticalGlue());
+		f.add(hand);
 		
 		
 		
@@ -292,11 +293,13 @@ public class gameGUI extends JFrame {
 		hand.setBackground(Color.decode("#f7f6bc"));
 		riderP.setBackground(Color.decode("#c4c4c4"));
 		
-		setVisible(true);
+		f.repaint();
+		f.setVisible(true);
+		f.repaint();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		if(width==1920) {
-			setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+			f.setExtendedState(f.getExtendedState() | Frame.MAXIMIZED_BOTH);
 		}
 
 	}
@@ -393,13 +396,13 @@ public class gameGUI extends JFrame {
 		rider.setLayout(new BoxLayout(rider, BoxLayout.Y_AXIS));
 		rider.setPreferredSize(RIDER_SIZE_DIM);
 		rider.setMaximumSize(RIDER_SIZE_DIM);
-		rider.setAlignmentX(CENTER_ALIGNMENT);
+		rider.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JLabel riderImage = new JLabel(new ImageIcon(myImage.getScaledInstance(RIDER_IMG_SIZE_DIM.width, RIDER_IMG_SIZE_DIM.height, Image.SCALE_DEFAULT)));
-		riderImage.setAlignmentX(CENTER_ALIGNMENT);
+		riderImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JLabel name = new JLabel(r.getName());
-		name.setAlignmentX(CENTER_ALIGNMENT);
+		name.setAlignmentX(Component.CENTER_ALIGNMENT);
 		name.setFont(new Font(name.getFont().getName(), Font.PLAIN, (int) (20*scale)));
 
 		
@@ -530,10 +533,10 @@ public class gameGUI extends JFrame {
 		JPanel topP = new JPanel();
 		topP.setLayout(new BoxLayout(topP, BoxLayout.X_AXIS));
 		JLabel title = new JLabel(c.getName());
-		title.setAlignmentX(CENTER_ALIGNMENT);
+		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, (int) (18*scale)));
 		JLabel cardImage = new JLabel(new ImageIcon(myPicture.getScaledInstance(CARD_IMG_SIZE_DIM.width,CARD_IMG_SIZE_DIM.height, Image.SCALE_DEFAULT)));
-		cardImage.setAlignmentX(CENTER_ALIGNMENT);
+		cardImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JPanel textP = new JPanel();
 		JLabel type = new JLabel(" "+c.getType().substring(0,1)+ " ");
 		JLabel manaCost = new JLabel(" "+Integer.toString(c.getCost())+" ");
@@ -546,7 +549,7 @@ public class gameGUI extends JFrame {
 		textP.setLayout(new FlowLayout());
 		textP.setPreferredSize(CARD_TEXT_DIM);
 		textP.setBorder(BorderFactory.createLineBorder(Color.black));
-		textP.setAlignmentX(CENTER_ALIGNMENT);
+		textP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JTextArea text = new JTextArea(5,10);
 		text.setText(c.getText());
 		text.setWrapStyleWord(true);
@@ -559,7 +562,7 @@ public class gameGUI extends JFrame {
 		} else {
 			text.setFont(new Font(text.getFont().getName(), Font.PLAIN, (int) (17*scale)));
 		}
-		text.setAlignmentX(CENTER_ALIGNMENT);
+		text.setAlignmentX(Component.CENTER_ALIGNMENT);
 		textP.add(text);
 		
 		topP.add(type);
@@ -609,13 +612,13 @@ public class gameGUI extends JFrame {
 			}
 			msg = msg.substring(0,msg.length()-4) + "are";
 		}
-		JOptionPane.showMessageDialog(this, msg + " sick of your music.  Game Over!");
+		JOptionPane.showMessageDialog(f, msg + " sick of your music.  Game Over!");
 		return 0;
 	}
 	
 	public int gameWin() {
-		JOptionPane.showMessageDialog(this,"Congratulations!  You've reached your destination with everyone still happy.  You win!");
-		dispose();
+		JOptionPane.showMessageDialog(f,"Congratulations!  You've reached your destination with everyone still happy.  You win!");
+		f.dispose();
 		return 0;
 	}
 	

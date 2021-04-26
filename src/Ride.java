@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JFrame;
+
 
 public class Ride {
 	ArrayList<Card> allCards;
@@ -22,20 +24,27 @@ public class Ride {
 	public int playTwiceRegen = 0;
 	public int refund = 0;
 	public int refundRegen = 0;
+	public JFrame f;
 
-	public Ride(ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders) {
+	public Ride(JFrame jf, ArrayList<Card> allCards, ArrayList<Card> mainDeck, int turns, int riders, int difficulty) {
+		f = jf;
 		this.allCards = allCards;
 		this.mainDeck = mainDeck;
 		this.RIDE_DURATION = turns;
 		this.remainingTurns = turns;
 		for(int i=0;i<riders;i++) {
-			this.riders.add(new Rider(1));
+			if(difficulty==3&&i==riders-1) {
+				this.riders.add(new Rider(2));
+			} else {
+				this.riders.add(new Rider(1));
+			}
 		}
 	}
 	
 	public void beginRide() {
 		initializeDeck();
 		gui = new gameGUI(this);
+		System.out.println("hello");
 		updateGui();
 		
 		for(;remainingTurns>0;remainingTurns--) {

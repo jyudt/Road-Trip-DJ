@@ -1,26 +1,54 @@
+import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class Main {
 	static ArrayList<Card> allCards;
 	static ArrayList<Card> normCards;
+	private static ArrayList<Card> mainDeck = new ArrayList<Card>();
+	public static JFrame mainFrame;
+	public static int inp;
 
 	public static void main(String[] args) {	
-		ArrayList<Card> mainDeck = new ArrayList<Card>();
-		initializeCards();
-		//don't do this for the real game
-		//deck of every card
-		/**
-		for(Card c:normCards) {
-			mainDeck.add((Card)c.clone());
+		mainFrame = new JFrame("Road Trip DJ");
+		inp = 0;
+		TitleScreen ts = new TitleScreen(mainFrame);
+		while(inp==0) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		*/
-				
+		startGame(inp);
+	}
+	
+	public static void startGame(int i) {
+
+		System.out.println("test");
+		initializeCards();
 		mainDeck = buildDefaultDeck();
-		Ride ride = new Ride(allCards, mainDeck,20, 3);
-		ride.beginRide();
+		Ride ride = null;
+		switch(i) {
+		case(1):
+			ride = new Ride(mainFrame, allCards, mainDeck,10, 3,i);
+			break;
+		case(2):
+			ride = new Ride(mainFrame, allCards, mainDeck,20, 4,i);
+			break;
+		case(3):
+			ride = new Ride(mainFrame, allCards, mainDeck,30, 5,i);
+			break;
+
+		}
+		if(ride!=null)
+			ride.beginRide();
 	}
 	
 	
@@ -284,5 +312,9 @@ public class Main {
 			return x;
 		}
 		return 1;
+	}
+	
+	public static JFrame getFrame() {
+		return mainFrame;
 	}
 }
