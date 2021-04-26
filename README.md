@@ -8,7 +8,8 @@ A game about keeping people happy with music.
 
 # How to play
 Each turn, you draw 5 cards.  You can spend Time to play them, and discard any cards left in your hand at the end of your turn.  
-Playing cards will increse the happiness of the riders, modified by any likes, dislikes, and traits they might have.  The last card you play in a turn has extra weight.  Keep everyone's happiness above 0 until you arrive at your destination to win!
+Playing cards will increse the happiness of the riders, modified by any likes, dislikes, and traits they might have.  The last card you play in a turn has extra weight.  
+Keep everyone's happiness above 0 until you arrive at your destination to win!
  
  
  
