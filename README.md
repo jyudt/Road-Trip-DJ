@@ -12,7 +12,8 @@ Playing cards will increse the happiness of the riders, modified by any likes, d
 Keep everyone's happiness above 0 until you arrive at your destination to win!
  
  
- 
+ # Videos  
+ Presentation near the end of development - includes Powerpoint, Gameplay, and some code viewing. https://youtu.be/QZOKucBdagw
  
  
  
